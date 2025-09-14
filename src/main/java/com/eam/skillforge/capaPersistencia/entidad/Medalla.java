@@ -1,4 +1,4 @@
 package com.eam.skillforge.capaPersistencia.entidad;
 
-public class medalla {
+public class Medalla {
 }

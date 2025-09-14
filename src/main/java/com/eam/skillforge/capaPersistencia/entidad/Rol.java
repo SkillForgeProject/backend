@@ -1,16 +1,16 @@
 package com.eam.skillforge.capaPersistencia.entidad;
 
 public enum Rol {
-    ADMIN(1),
-    INSTRUCTOR(2),
-    USER(3);
-    private int id;
+    ADMIN("ADMIN"),
+    INSTRUCTOR("INSTRUCTOR"),
+    USER("USER");
+    private String rol;
 
-    Rol(int id) {
-        this.id = id;
+    Rol(String rol) {
+        this.rol = rol;
     }
 
-    public int getId() {
-        return id;
+    public String getRold() {
+        return rol;
     }
 }

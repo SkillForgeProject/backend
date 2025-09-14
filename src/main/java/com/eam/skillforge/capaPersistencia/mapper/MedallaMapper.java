@@ -1,4 +1,4 @@
 package com.eam.skillforge.capaPersistencia.mapper;
 
-public class medallaMapper {
+public class MedallaMapper {
 }

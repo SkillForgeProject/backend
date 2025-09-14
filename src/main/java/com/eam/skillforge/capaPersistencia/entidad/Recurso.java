@@ -1,15 +1,15 @@
 package com.eam.skillforge.capaPersistencia.entidad;
 
 public enum Recurso {
-    VIDEO("Video"),
-    TEXTO("Texto"),
-    QUIZ("Quiz");
-    private String recurso;
-    Recurso(String recurso) {
-        this.recurso = recurso;
+    VIDEO(1),
+    TEXTO(2),
+    QUIZ(3);
+    private int id;
+    Recurso(int id) {
+        this.id = id;
     }
 
-    public String getRecurso() {
-        return recurso;
+    public int getId() {
+        return id;
     }
 }

@@ -6,6 +6,7 @@ public enum Categoria {
     ESPECIALIZACION(3);
 
     private int id;
+
     Categoria(int id) {
         this.id = id;
     }

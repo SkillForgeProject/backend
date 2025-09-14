@@ -4,6 +4,7 @@ public enum Rol {
     ADMIN(1),
     INSTRUCTOR(2),
     USER(3);
+
     private int id;
 
     Rol(int id) {

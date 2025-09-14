@@ -9,19 +9,22 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 
-public class Medalla {
+public class Modulo {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String nombre;
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id")
+    private Curso curso;
 
-    private String criterio;
+    private String titulo;
 
-    private String icono;
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name = "recurso")
+    private Recurso tipo;
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_usuario")
-    private Usuario usuario;
+    private String orden;
+
 }

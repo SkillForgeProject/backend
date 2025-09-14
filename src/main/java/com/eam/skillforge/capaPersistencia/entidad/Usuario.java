@@ -4,12 +4,13 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+
 @Entity
 @Table(name = "badge")
 @Data
 @NoArgsConstructor
 
-public class Medalla {
+public class Usuario {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,11 +18,13 @@ public class Medalla {
 
     private String nombre;
 
-    private String criterio;
+    private String email;
 
-    private String icono;
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_rol")
+    private Rol idRol;
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_usuario")
-    private Usuario usuario;
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_departamento")
+    private Departamento departamento;
 }

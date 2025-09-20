@@ -6,17 +6,16 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "categoria")
+@Table(name = "departamento")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 
-public class Estado {
+public class Departamento {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private long id;
 
-    private String etapa;
-
+    private String departamento;
 }

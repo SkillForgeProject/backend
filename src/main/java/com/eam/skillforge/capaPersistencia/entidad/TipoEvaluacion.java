@@ -1,12 +1,21 @@
 package com.eam.skillforge.capaPersistencia.entidad;
 
-public enum TipoEvaluacion {
-    MCQ(1),
-    ABIERTA(2),
-    CERRADA(3);
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-    private int id;
-    TipoEvaluacion(int id) {
-        this.id = id;
-    }
+@Entity
+@Table(name = "tipoEvaluacion")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+
+public class TipoEvaluacion {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private String nombre;
 }

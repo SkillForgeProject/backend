@@ -1,15 +1,17 @@
 package com.eam.skillforge.capaPersistencia.entidad;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "badge")
+@Table(name = "inscripcion")
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 
 public class Inscripcion {
 
@@ -17,7 +19,7 @@ public class Inscripcion {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToMany(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_curso")
     private Curso curso;
 
@@ -25,8 +27,8 @@ public class Inscripcion {
 
     private LocalDateTime fechaInscripcion;
 
-    @OneToMany(fetch = FetchType.LAZY)
-    @JoinColumn(name = "estado")
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_estado")
     private Estado estado;
 
 }

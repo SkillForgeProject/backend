@@ -1,10 +1,16 @@
 package com.eam.skillforge.capaNegocio.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.time.LocalTime;
 
 @Schema(description = "Información del certificado emitido a un usuario en un curso")
-
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class CertificadoDto {
 
     @Schema(
@@ -21,12 +27,16 @@ public class CertificadoDto {
     )
     private int id_usuario;
 
+    private String nombreUsuario;
+
     @Schema(
             description = "Identificador del curso al que corresponde el certificado",
             example = "45",
             required = true
     )
     private int id_curso;
+
+    private String nombreCurso;
 
     @Schema(
             description = "Fecha y hora de emisión del certificado",
@@ -42,39 +52,4 @@ public class CertificadoDto {
     )
     private String hash;
 
-
-    public int getId() {
-        return id;
-    }
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public int getId_usuario() {
-        return id_usuario;
-    }
-    public void setId_usuario(int id_usuario) {
-        this.id_usuario = id_usuario;
-    }
-
-    public int getId_curso() {
-        return id_curso;
-    }
-    public void setId_curso(int id_curso) {
-        this.id_curso = id_curso;
-    }
-
-    public LocalTime getFecha_emision() {
-        return fecha_emision;
-    }
-    public void setFecha_emision(LocalTime fecha_emision) {
-        this.fecha_emision = fecha_emision;
-    }
-
-    public String getHash() {
-        return hash;
-    }
-    public void setHash(String hash) {
-        this.hash = hash;
-    }
 }

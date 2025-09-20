@@ -1,13 +1,15 @@
 package com.eam.skillforge.capaPersistencia.entidad;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "badge")
+@Table(name = "curso")
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 
 public class Curso {
 
@@ -21,7 +23,7 @@ public class Curso {
 
     private Long duracionEstimada;
 
-    @OneToMany(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_categoria")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "categoria_id", nullable = false)
     private Categoria categoria;
 }

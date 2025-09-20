@@ -1,17 +1,22 @@
 package com.eam.skillforge.capaPersistencia.entidad;
 
-public enum Recurso {
-    VIDEO(1),
-    TEXTO(2),
-    PRACTICA(3);
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-    private int recurso;
+@Entity
+@Table(name = "recurso")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 
-    Recurso(int recurso) {
-        this.recurso = recurso;
-    }
+public class Recurso {
 
-    public int getRecurso() {
-        return recurso;
-    }
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private String nombre;
+
 }

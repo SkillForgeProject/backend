@@ -1,4 +1,4 @@
-package com.eam.skillforge.capaNegocio.controlador;
+package com.eam.skillforge.capaPresentacion.controlador;
 
 import com.eam.skillforge.capaPersistencia.entidad.Certificado;
 import com.eam.skillforge.capaPersistencia.entidad.Evaluacion;

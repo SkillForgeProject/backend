@@ -1,11 +1,17 @@
 package com.eam.skillforge.capaNegocio.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Schema(
         description = "Información de una medalla otorgada a un usuario"
 )
 
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class MedallaDto {
 
     @Schema(
@@ -32,32 +38,7 @@ public class MedallaDto {
             required = true)
     private String icono;
 
+    private String nombreUsuario;
+    private Long idUsuario;
 
-    public Long getId() {
-        return id;
-    }
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getNombre() {
-        return nombre;
-    }
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
-    public String getCriterio() {
-        return criterio;
-    }
-    public void setCriterio(String criterio) {
-        this.criterio = criterio;
-    }
-
-    public String getIcono() {
-        return icono;
-    }
-    public void setIcono(String icono) {
-        this.icono = icono;
-    }
 }

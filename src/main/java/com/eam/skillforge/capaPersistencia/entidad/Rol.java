@@ -1,17 +1,21 @@
 package com.eam.skillforge.capaPersistencia.entidad;
 
-public enum Rol {
-    ADMIN(1),
-    INSTRUCTOR(2),
-    USER(3);
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-    private int id;
+@Entity
+@Table(name = "rol")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 
-    Rol(int id) {
-        this.id = id;
-    }
+public class Rol {
 
-    public int getId() {
-        return id;
-    }
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private String nombre;
 }

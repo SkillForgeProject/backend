@@ -79,7 +79,7 @@ public class ControladorCurso {
                     content = @Content
             )
     })
-    @GetMapping
+    @GetMapping("/{id}")
     public ResponseEntity<Curso> buscarCursoPorId(
             @RequestParam Integer cursoId) {
         return null;
@@ -100,7 +100,7 @@ public class ControladorCurso {
                     content = @Content
             )
     })
-    @GetMapping
+    @DeleteMapping
     public ResponseEntity<Curso> eliminarCurso(
             @RequestParam Integer cursoId) {
         return null;
@@ -123,7 +123,7 @@ public class ControladorCurso {
                                 schema = @Schema(implementation = Curso.class))
             )
     })
-    @GetMapping
+    @PutMapping
     public ResponseEntity<Curso> actualizarCurso(
             @RequestParam Integer cursoId,
             @RequestBody Curso curso) {
@@ -146,7 +146,7 @@ public class ControladorCurso {
                             schema = @Schema(implementation = Curso.class))
             )
     })
-    @GetMapping
+    @PostMapping("/{id_curso}")
     public ResponseEntity<Curso> inscribirUsuario(
             @RequestParam Integer cursoId,
             @RequestBody Curso curso) {

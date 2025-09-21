@@ -1,6 +1,7 @@
 package com.eam.skillforge.capaPersistencia.entidad;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -8,6 +9,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "badge")
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 
 public class Medalla {
 
@@ -21,7 +23,7 @@ public class Medalla {
 
     private String icono;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_usuario")
     private Usuario usuario;
 }

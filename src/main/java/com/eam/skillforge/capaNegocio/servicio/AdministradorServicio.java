@@ -4,6 +4,6 @@ import com.eam.skillforge.capaNegocio.dto.UsuarioDto;
 
 import java.util.ArrayList;
 
-public interface UserServicio {
-    ArrayList<UsuarioDto>  getUsuarios();
+public interface AdministradorServicio {
+    UsuarioDto postUsuario(UsuarioDto usuario);
 }

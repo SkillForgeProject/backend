@@ -17,5 +17,5 @@ public class Departamento {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    private String departamento;
+    private String nombre;
 }

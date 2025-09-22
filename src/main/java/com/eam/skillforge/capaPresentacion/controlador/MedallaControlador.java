@@ -27,10 +27,6 @@ import org.springframework.web.bind.annotation.*;
 public class MedallaControlador {
     private final MedallaServicio medallaServicio;
 
-    public MedallaControlador(MedallaServicio medallaServicio) {
-        this.medallaServicio = medallaServicio;
-    }
-
     /**
      * Crear una medalla nueva
      */

@@ -56,7 +56,8 @@ public class ControladorAdministrador {
             @ApiResponse(responseCode = "204", description = "Usuario eliminado"),
             @ApiResponse(responseCode = "500", description = "Error al eliminar el usuario")
     })
-    public ResponseEntity deleteUsuario(@RequestParam int id) {
+    public ResponseEntity deleteUsuario(@PathVariable Long id) {
+        administradorServicio.deleteUsuario(id);
         return new ResponseEntity(HttpStatus.OK);
     }
 }

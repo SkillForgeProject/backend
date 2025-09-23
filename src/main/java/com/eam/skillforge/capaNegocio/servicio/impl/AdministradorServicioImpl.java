@@ -15,10 +15,13 @@ import org.springframework.stereotype.Service;
 public class AdministradorServicioImpl implements AdministradorServicio {
     private final AdministradorDAO administradorDAO;
 
-    @Override
     public UsuarioDto postUsuario(UsuarioDto usuario) {
         System.out.println("Se inicia guardado");
         UsuarioDto usuarioCreado =administradorDAO.guardarUsuario(usuario);
         return usuarioCreado;
+    }
+
+    public void deleteUsuario(Long id) {
+        administradorDAO.borrarUsuario(id);
     }
 }

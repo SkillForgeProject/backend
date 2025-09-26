@@ -1,26 +1,33 @@
 package com.eam.skillforge.capaPresentacion.controlador;
 
 import com.eam.skillforge.capaNegocio.dto.UsuarioDto;
+import com.eam.skillforge.capaNegocio.servicio.AdministradorServicio;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/usuarios")
-@Tag(name = "Usuarios")
+@RequestMapping("/administrador")
+@RequiredArgsConstructor
+@Slf4j
+@Tag(name = "Administrador")
 public class ControladorAdministrador {
+    private final AdministradorServicio administradorServicio;
     @PostMapping("")
     @Operation(summary = "Crear usuario")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Usuaro creado"),
             @ApiResponse(responseCode = "500", description = "Creación fallida")
     })
-    public ResponseEntity postUsuario(@RequestBody UsuarioDto usuario) {
-        return new ResponseEntity(HttpStatus.OK);
+    public ResponseEntity<UsuarioDto> postUsuario(@RequestBody UsuarioDto usuario) {
+        UsuarioDto usuarioCreado = administradorServicio.postUsuario(usuario);
+        return new ResponseEntity(usuarioCreado, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
@@ -49,7 +56,8 @@ public class ControladorAdministrador {
             @ApiResponse(responseCode = "204", description = "Usuario eliminado"),
             @ApiResponse(responseCode = "500", description = "Error al eliminar el usuario")
     })
-    public ResponseEntity deleteUsuario(@RequestParam int id) {
+    public ResponseEntity deleteUsuario(@PathVariable Long id) {
+        administradorServicio.deleteUsuario(id);
         return new ResponseEntity(HttpStatus.OK);
     }
 }

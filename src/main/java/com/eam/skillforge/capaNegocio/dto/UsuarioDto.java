@@ -1,11 +1,18 @@
 package com.eam.skillforge.capaNegocio.dto;
 
+import com.eam.skillforge.capaPersistencia.entidad.Departamento;
 import com.eam.skillforge.capaPersistencia.entidad.Rol;
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Schema(
         description = "Información de un usuario dentro del sistema"
 )
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class UsuarioDto {
 
     @Schema(
@@ -41,48 +48,5 @@ public class UsuarioDto {
             description = "Departamento o área a la que pertenece el usuario",
             example = "Ingeniería de Sistemas",
             required = true)
-    private String departamento;
-
-
-    public int getId() {
-        return id;
-    }
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getContrasena() {
-        return contrasena;
-    }
-    public void setContrasena(String contrasena) {
-        this.contrasena = contrasena;
-    }
-
-    public String getNombre() {
-        return nombre;
-    }
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public Rol getId_rol() {
-        return id_rol;
-    }
-    public void setId_rol(Rol id_rol) {
-        this.id_rol = id_rol;
-    }
-
-    public String getDepartamento() {
-        return departamento;
-    }
-    public void setDepartamento(String departamento) {
-        this.departamento = departamento;
-    }
+    private Departamento departamento;
 }

@@ -13,7 +13,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/medalla")
@@ -73,6 +76,48 @@ public class MedallaControlador {
         } catch (Exception e) {
             log.warn("Error interno del servidor");
             return ResponseEntity.internalServerError().build();
+        }
+    }
+
+    @Operation(
+            summary = "Buscar todas las medalla por ID de usuadio",
+            description = "Devuelve todas las medallas relacionadas a un ID de un usuario"
+    )
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Medallas encontradas",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = MedallaDto.class)
+                    )
+            ),
+            @ApiResponse(
+                    responseCode = "404",
+                    description = "Usuario no encontrado",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = String.class)
+                    )
+            ),
+            @ApiResponse(
+                    responseCode = "500",
+                    description = "Error interno del servidor"
+            )
+    })
+    @GetMapping("/{id}")
+    public ResponseEntity<List<MedallaDto>> buscarMedallaPorIdUsuario(
+            @Parameter(description = "ID del usuario para buscar medallas", required = true)
+            @PathVariable Long id
+    ) {
+        log.debug("GET /skillforge/medallas/{} Buscando medallas por ID usuario", id);
+
+        try {
+            List<MedallaDto> medallas = medallaServicio.getMedallasPorUsuarioId(id);
+            return ResponseEntity.ok(medallas);
+        } catch(RuntimeException e) {
+            log.warn("Medalla no encontrada con ID de usuario: {}", id);
+            return ResponseEntity.notFound().build();
         }
     }
 }

@@ -54,6 +54,8 @@ public class ControladorAdministrador {
     @Operation(summary = "Eliminar usuario")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "204", description = "Usuario eliminado"),
+            @ApiResponse(responseCode = "400", description = "Petición erronea"),
+            @ApiResponse(responseCode = "404", description = "Usuario no encontrado"),
             @ApiResponse(responseCode = "500", description = "Error al eliminar el usuario")
     })
     public ResponseEntity deleteUsuario(@PathVariable Long id) {

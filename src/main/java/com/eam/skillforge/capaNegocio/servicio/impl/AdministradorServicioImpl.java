@@ -56,4 +56,10 @@ public class AdministradorServicioImpl implements AdministradorServicio {
     public void deleteUsuario(Long id) {
         administradorDAO.borrarUsuario(id);
     }
+
+    public Integer getCantidadUsuarios() {
+        return administradorDAO.obtenerCantidadUsuarios();
+    }
+
+    public Double getTasaFinalizacion() { return administradorDAO.obtenerTasaFinalizacion();}
 }

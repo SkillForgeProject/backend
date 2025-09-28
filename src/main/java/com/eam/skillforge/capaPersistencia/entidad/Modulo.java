@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 import java.util.List;
 
 @Entity
-@Table(name = "badge")
+@Table(name = "modulo")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -19,16 +19,15 @@ public class Modulo {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "cursoId",  referencedColumnName = "id")
     private Curso curso;
 
     private String titulo;
 
-    @OneToMany(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_recurso")
-    private List<Recurso> recursos;
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "tipo")   // la FK en la tabla modulo
+    private Recurso recurso;
 
     private String orden;
-
 }

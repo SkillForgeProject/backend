@@ -19,11 +19,13 @@ import org.springframework.web.bind.annotation.*;
 @Tag(name = "Administrador")
 public class ControladorAdministrador {
     private final AdministradorServicio administradorServicio;
-    @PostMapping("")
+    @PostMapping
     @Operation(summary = "Crear usuario")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Usuaro creado"),
-            @ApiResponse(responseCode = "500", description = "Creación fallida")
+            @ApiResponse(responseCode = "500", description = "Creación fallida"),
+            @ApiResponse(responseCode = "400", description = "Error en los campos del usuario"),
+            @ApiResponse(responseCode = "404", description =  "No se encontró el recurso")
     })
     public ResponseEntity<UsuarioDto> postUsuario(@RequestBody UsuarioDto usuario) {
         UsuarioDto usuarioCreado = administradorServicio.postUsuario(usuario);
@@ -61,5 +63,28 @@ public class ControladorAdministrador {
     public ResponseEntity deleteUsuario(@PathVariable Long id) {
         administradorServicio.deleteUsuario(id);
         return new ResponseEntity(HttpStatus.OK);
+    }
+
+    @GetMapping("/cantidadEstudiantes")
+    @Operation(summary = "Obtener cantidad estudiantes")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Cantidad de estudiantes obtenida correctamente"),
+            @ApiResponse(responseCode = "400", description = "Solicitud incorrecta"),
+            @ApiResponse(responseCode = "401", description = "No autorizado"),
+            @ApiResponse(responseCode = "500", description = "Error interno del servidor")
+    })
+    public ResponseEntity<Integer> getCantidadEstudiantes() {
+        Integer cantidadUsuarios = administradorServicio.getCantidadUsuarios();
+        return new ResponseEntity(cantidadUsuarios, HttpStatus.OK);
+    }
+
+    @GetMapping("/tazaFinalización")
+    @Operation(summary = "Obtener taza finalización")
+    @ApiResponses(value = {
+
+    })
+    public ResponseEntity<Double> getTasaFinalizacion() {
+        Double tazaFinalizacion = administradorServicio.getTasaFinalizacion();
+        return new ResponseEntity(tazaFinalizacion, HttpStatus.OK);
     }
 }

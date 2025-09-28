@@ -24,6 +24,6 @@ public class Curso {
     private Long duracionEstimada;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "categoria_id", nullable = false)
+    @JoinColumn(name = "nivel", nullable = false)
     private Categoria categoria;
 }

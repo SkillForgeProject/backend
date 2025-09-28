@@ -1,6 +1,7 @@
 package com.eam.skillforge.capaPersistencia.dao;
 
 import com.eam.skillforge.capaNegocio.dto.UsuarioDto;
+import com.eam.skillforge.capaNegocio.excepciones.UsuarioNoEncontradoExcepcion;
 import com.eam.skillforge.capaPersistencia.entidad.Departamento;
 import com.eam.skillforge.capaPersistencia.entidad.Rol;
 import com.eam.skillforge.capaPersistencia.entidad.Usuario;
@@ -35,14 +36,21 @@ public class AdministradorDAO {
     }
 
     public void borrarUsuario(Long id) {
-        Optional<Usuario> usuarioOpt = usuarioRepositorio.findById(id);
-        if (usuarioOpt.isPresent()) {
-            Usuario usuarioEntidad = usuarioOpt.get();
-            usuarioRepositorio.delete(usuarioEntidad);
-            // aquí ya tienes el usuario
-        } else {
-            // no existe el usuario con ese id
-        }
+        usuarioRepositorio.findById(id).ifPresentOrElse(
+            usuario -> {
+                usuarioRepositorio.delete(usuario);
+            },
+            () -> {
+                throw new UsuarioNoEncontradoExcepcion(id);
+            }
+        );
     }
 
+    public Integer obtenerCantidadUsuarios() {
+        return Math.toIntExact(usuarioRepositorio.contarPorRol(3L));
+    }
+
+    public Double obtenerTasaFinalizacion() {
+        return usuarioRepositorio.findPromedioProgresoDistinto();
+    }
 }

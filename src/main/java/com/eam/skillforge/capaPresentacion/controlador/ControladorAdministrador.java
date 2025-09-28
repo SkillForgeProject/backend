@@ -1,16 +1,22 @@
 package com.eam.skillforge.capaPresentacion.controlador;
 
 import com.eam.skillforge.capaNegocio.dto.UsuarioDto;
+import com.eam.skillforge.capaNegocio.dto.UsuariosPorCursoMesDTO;
 import com.eam.skillforge.capaNegocio.servicio.AdministradorServicio;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.coyote.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/administrador")
@@ -78,13 +84,22 @@ public class ControladorAdministrador {
         return new ResponseEntity(cantidadUsuarios, HttpStatus.OK);
     }
 
-    @GetMapping("/tazaFinalización")
-    @Operation(summary = "Obtener taza finalización")
+    @GetMapping("/tasaFinalizacion")
+    @Operation(summary = "Obtener tasa de finalización")
     @ApiResponses(value = {
-
+            @ApiResponse(responseCode = "200", description = "Tasa de finalización obtenida correctamente"),
+            @ApiResponse(responseCode = "400", description = "Solicitud incorrecta"),
+            @ApiResponse(responseCode = "500", description = "Error interno del servidor")
     })
     public ResponseEntity<Double> getTasaFinalizacion() {
         Double tazaFinalizacion = administradorServicio.getTasaFinalizacion();
         return new ResponseEntity(tazaFinalizacion, HttpStatus.OK);
+    }
+
+    @GetMapping("/usuariosPorCursoMes")
+    @Operation(summary = "Obtener cantidad de usuarios por curso fraccionado por mes")
+    public ResponseEntity<List<UsuariosPorCursoMesDTO>> getUsuariosPorCursoMes() {
+        List<UsuariosPorCursoMesDTO> usuariosPorCursoMes = administradorServicio.getUsuariosPorCursoMes();
+        return new ResponseEntity<>(usuariosPorCursoMes, HttpStatus.OK);
     }
 }

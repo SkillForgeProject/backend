@@ -1,5 +1,6 @@
 package com.eam.skillforge.capaPersistencia.repositorio;
 
+import com.eam.skillforge.capaNegocio.dto.UsuariosPorCursoMesDTO;
 import com.eam.skillforge.capaPersistencia.entidad.Usuario;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -7,6 +8,8 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
+
+import java.util.List;
 
 @Repository
 public interface UsuarioRepositorio extends JpaRepository<Usuario, Long> {
@@ -23,5 +26,13 @@ public interface UsuarioRepositorio extends JpaRepository<Usuario, Long> {
             "WHERE i.estado.id <> 1")
     Double findPromedioProgresoDistinto();
 
+    @Query(value = "SELECT c.titulo AS titulo, " +
+            "MONTHNAME(i.fechaInscripcion) AS mes, " +
+            "COUNT(DISTINCT i.usuarioId) AS totalUsuarios " +
+            "FROM inscripcion i " +
+            "INNER JOIN curso c ON i.cursoId = c.id " +
+            "GROUP BY c.titulo, MONTHNAME(i.fechaInscripcion)",
+            nativeQuery = true)
+    List<UsuariosPorCursoMesDTO> contarUsuariosPorCursoYMes();
 }
 

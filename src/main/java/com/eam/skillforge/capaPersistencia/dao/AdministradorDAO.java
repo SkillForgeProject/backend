@@ -1,6 +1,7 @@
 package com.eam.skillforge.capaPersistencia.dao;
 
 import com.eam.skillforge.capaNegocio.dto.UsuarioDto;
+import com.eam.skillforge.capaNegocio.dto.UsuariosPorCursoMesDTO;
 import com.eam.skillforge.capaNegocio.excepciones.UsuarioNoEncontradoExcepcion;
 import com.eam.skillforge.capaPersistencia.entidad.Departamento;
 import com.eam.skillforge.capaPersistencia.entidad.Rol;
@@ -12,6 +13,7 @@ import com.eam.skillforge.capaPersistencia.repositorio.UsuarioRepositorio;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -52,5 +54,9 @@ public class AdministradorDAO {
 
     public Double obtenerTasaFinalizacion() {
         return usuarioRepositorio.findPromedioProgresoDistinto();
+    }
+
+    public List<UsuariosPorCursoMesDTO> obtenerUsuariosPorCursoMes() {
+        return usuarioRepositorio.contarUsuariosPorCursoYMes();
     }
 }

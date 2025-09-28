@@ -19,6 +19,12 @@ public class ManejoGlobalExcepcion {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
     }
 
+    @ExceptionHandler(CorreoNoEncontradoExcepcion.class)
+    public ResponseEntity<ErrorResponse<String>> manejarCorreoNoEncontrado(CorreoNoEncontradoExcepcion ex) {
+        ErrorResponse<String> errorResponse = new ErrorResponse<>(ex.getMessage());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
+    }
+
     public class ErrorResponse<T> {
         private T result;
         private boolean success = false;

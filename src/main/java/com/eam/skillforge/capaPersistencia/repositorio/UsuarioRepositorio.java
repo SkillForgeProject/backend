@@ -7,12 +7,16 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 import java.util.List;
 
 @Repository
 public interface UsuarioRepositorio extends JpaRepository<Usuario, Long> {
 
     boolean existsByEmail(String email);
+    Optional<Usuario> findByEmail(String email);
+
     @Query("SELECT COUNT(u) FROM Usuario u WHERE u.idRol.id = :rolId")
     long contarPorRol(@Param("rolId") Long rolId);
     @Query("SELECT AVG(DISTINCT i.progreso) " +
@@ -31,3 +35,4 @@ public interface UsuarioRepositorio extends JpaRepository<Usuario, Long> {
             nativeQuery = true)
     List<UsuariosPorCursoMesDTO> contarUsuariosPorCursoYMes();
 }
+

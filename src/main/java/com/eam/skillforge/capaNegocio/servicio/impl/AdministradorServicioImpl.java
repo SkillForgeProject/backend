@@ -1,6 +1,7 @@
 package com.eam.skillforge.capaNegocio.servicio.impl;
 
 import com.eam.skillforge.capaNegocio.dto.UsuarioDto;
+import com.eam.skillforge.capaNegocio.dto.UsuariosPorCursoMesDTO;
 import com.eam.skillforge.capaNegocio.excepciones.CreacionUsuarioExcepcion;
 import com.eam.skillforge.capaNegocio.servicio.AdministradorServicio;
 import com.eam.skillforge.capaPersistencia.dao.AdministradorDAO;
@@ -10,6 +11,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @Transactional
@@ -62,4 +65,5 @@ public class AdministradorServicioImpl implements AdministradorServicio {
     }
 
     public Double getTasaFinalizacion() { return administradorDAO.obtenerTasaFinalizacion();}
+    public List<UsuariosPorCursoMesDTO> getUsuariosPorCursoMes() { return administradorDAO.obtenerUsuariosPorCursoMes();}
 }

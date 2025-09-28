@@ -8,4 +8,5 @@ public interface AdministradorServicio {
     UsuarioDto postUsuario(UsuarioDto usuario);
     void deleteUsuario(Long id);
     Integer getCantidadUsuarios();
+    Double getTasaFinalizacion();
 }

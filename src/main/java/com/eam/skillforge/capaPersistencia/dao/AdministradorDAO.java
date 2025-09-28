@@ -49,4 +49,8 @@ public class AdministradorDAO {
     public Integer obtenerCantidadUsuarios() {
         return Math.toIntExact(usuarioRepositorio.contarPorRol(3L));
     }
+
+    public Double obtenerTasaFinalizacion() {
+        return usuarioRepositorio.findPromedioProgresoDistinto();
+    }
 }

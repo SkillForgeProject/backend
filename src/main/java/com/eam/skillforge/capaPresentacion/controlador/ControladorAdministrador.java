@@ -77,4 +77,14 @@ public class ControladorAdministrador {
         Integer cantidadUsuarios = administradorServicio.getCantidadUsuarios();
         return new ResponseEntity(cantidadUsuarios, HttpStatus.OK);
     }
+
+    @GetMapping("/tazaFinalización")
+    @Operation(summary = "Obtener taza finalización")
+    @ApiResponses(value = {
+
+    })
+    public ResponseEntity<Double> getTasaFinalizacion() {
+        Double tazaFinalizacion = administradorServicio.getTasaFinalizacion();
+        return new ResponseEntity(tazaFinalizacion, HttpStatus.OK);
+    }
 }

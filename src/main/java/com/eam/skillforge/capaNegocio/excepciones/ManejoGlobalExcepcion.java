@@ -19,6 +19,18 @@ public class ManejoGlobalExcepcion {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
     }
 
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<ErrorResponse<String>> manejarCamposMedalla(IllegalArgumentException ex) {
+        ErrorResponse<String> errorResponse = new ErrorResponse<>(ex.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
+    }
+
+    @ExceptionHandler(UsuarioNoAutorizadoExcepcion.class)
+    public ResponseEntity<ErrorResponse<String>> manejarCamposMedalla(UsuarioNoAutorizadoExcepcion ex) {
+        ErrorResponse<String> errorResponse = new ErrorResponse<>(ex.getMessage());
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(errorResponse);
+    }
+
     public class ErrorResponse<T> {
         private T result;
         private boolean success = false;

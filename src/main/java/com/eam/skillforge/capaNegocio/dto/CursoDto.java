@@ -56,4 +56,6 @@ public class CursoDto {
     )
     private String nombreCategoria;
 
+    private Long tutorId;
+
 }

@@ -11,4 +11,6 @@ public interface TutorServicio {
     List<CursoDto> getCursosPorTutorId(Long tutorId);
 
     Optional<UsuarioDto> getTutorPorId(Long tutorId);
+
+    void eliminarCurso(Long tutorId);
 }

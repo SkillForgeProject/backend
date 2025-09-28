@@ -3,7 +3,9 @@ package com.eam.skillforge.capaNegocio.servicio.impl;
 import com.eam.skillforge.capaNegocio.dto.CursoDto;
 import com.eam.skillforge.capaNegocio.dto.UsuarioDto;
 import com.eam.skillforge.capaNegocio.excepciones.UsuarioNoAutorizadoExcepcion;
+import com.eam.skillforge.capaNegocio.servicio.CursoServicio;
 import com.eam.skillforge.capaNegocio.servicio.TutorServicio;
+import com.eam.skillforge.capaPersistencia.dao.CursoDAO;
 import com.eam.skillforge.capaPersistencia.dao.TutorDAO;
 import com.eam.skillforge.capaPersistencia.entidad.Usuario;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +23,8 @@ import java.util.Optional;
 public class TutorServicioImpl implements TutorServicio {
 
     private final TutorDAO tutorDAO;
+    private final CursoDAO cursoDAO;
+    private final CursoServicio cursoServicio;
 
     @Override
     public List<CursoDto> getCursosPorTutorId(Long tutorId) {
@@ -40,5 +44,18 @@ public class TutorServicioImpl implements TutorServicio {
         }
 
         return tutorDAO.getTutorPorId(tutorId);
+    }
+
+    @Override
+    public void eliminarCurso(Long cursoId) {
+        log.debug("Eliminando curso ID: {}", cursoId);
+        cursoServicio.getCursoPorId(cursoId);
+
+        boolean eliminado = cursoDAO.eliminarPorId(cursoId);
+        if(!eliminado) {
+            throw new RuntimeException("Error al eliminar curso por ID: " + cursoId);
+        }
+
+        log.info("Curso eliminado satisfactoriamente ID: {}", cursoId);
     }
 }

@@ -50,6 +50,18 @@ public class ControladorInstructor {
                             mediaType = "application/json",
                             schema = @Schema(implementation = CursoDto.class)
                     )
+            ),
+            @ApiResponse(
+                    responseCode = "400",
+                    description = "ID inválido de tutor",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = CursoDto.class)
+                    )
+            ),
+            @ApiResponse(
+                    responseCode = "500",
+                    description = "Error interno del servidor"
             )
     })
     @GetMapping("/cursos/{tutorId}")
@@ -64,6 +76,24 @@ public class ControladorInstructor {
             log.warn("Cursos no encontrados con ID: {}", tutorId);
             return ResponseEntity.notFound().build();
         } catch(Exception e) {
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+
+    @DeleteMapping("/cursos/{cursoId}")
+    public ResponseEntity<Void> eliminarCurso(
+            @Parameter(description = "ID del curso a eliminar", required = true, example = "4")
+            @PathVariable Long cursoId
+    ) {
+        log.info("DELETE tutor/cursos/{} - Eliminando curso", cursoId);
+        try {
+            tutorServicio.eliminarCurso(cursoId);
+            log.info("Curso eliminado exitosamente ID: {}", cursoId);
+            return ResponseEntity.noContent().build();
+        } catch (RuntimeException e) {
+            log.warn("Curso no encontrado para eliminar ID: {}", cursoId);
+            return ResponseEntity.notFound().build();
+        } catch (Exception e) {
             return ResponseEntity.internalServerError().build();
         }
     }

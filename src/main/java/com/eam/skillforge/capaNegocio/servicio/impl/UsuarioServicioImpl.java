@@ -33,7 +33,7 @@ public class UsuarioServicioImpl implements UsuarioServicio {
             throw new CorreoNoEncontradoExcepcion("No se encontró un usuario con el correo: " + correo);
         }
 
-        log.info("Usuario encontrado: {}", usuarioEncontrado.getEmail());
+        log.info("Usuario encontrado: {}", usuarioEncontrado.getCorreo());
         return usuarioEncontrado;
     }
 

@@ -51,5 +51,13 @@ public class MedallaServicioImpl implements MedallaServicio {
             throw new IllegalArgumentException("El nombre del producto es obligatorio");
         }
 
+        if(medallaDto.getCriterio() == null || medallaDto.getCriterio().trim().isEmpty()) {
+            throw new IllegalArgumentException("El criterio de aceptación para la obtención de la medalla es obligatorio");
+        }
+
+        if(medallaDto.getIcono() == null || medallaDto.getIcono().trim().isEmpty()) {
+            throw new IllegalArgumentException("La URL del ícono es obligatoria");
+        }
+
     }
 }

@@ -21,9 +21,14 @@ public class Curso {
 
     private String descripcion;
 
+    @Column(name = "duracionEstim")
     private Long duracionEstimada;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "nivel", nullable = false)
     private Categoria categoria;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_tutor", nullable = false)
+    private Usuario tutor;
 }

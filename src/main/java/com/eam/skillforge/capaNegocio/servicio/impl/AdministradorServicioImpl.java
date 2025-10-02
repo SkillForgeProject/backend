@@ -5,7 +5,7 @@ import com.eam.skillforge.capaNegocio.dto.UsuariosPorCursoMesDTO;
 import com.eam.skillforge.capaNegocio.excepciones.CreacionUsuarioExcepcion;
 import com.eam.skillforge.capaNegocio.servicio.AdministradorServicio;
 import com.eam.skillforge.capaPersistencia.dao.AdministradorDAO;
-import com.eam.skillforge.capaPersistencia.repositorio.UsuarioRepositorio;
+import com.eam.skillforge.capaPersistencia.repositorio.AdministradorRepositorio;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,7 +21,7 @@ import java.util.List;
 public class AdministradorServicioImpl implements AdministradorServicio {
     private final AdministradorDAO administradorDAO;
     @Autowired
-    private UsuarioRepositorio usuarioRepository;
+    private AdministradorRepositorio usuarioRepository;
 
     public UsuarioDto postUsuario(UsuarioDto usuario) {
         System.out.println("Se inicia guardado");

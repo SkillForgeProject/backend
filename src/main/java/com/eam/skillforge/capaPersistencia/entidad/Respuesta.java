@@ -19,12 +19,12 @@ public class Respuesta {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_evaluacion")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "evaluacionId")
     private Evaluacion evaluacion;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_usuario")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "usuarioId")
     private Usuario usuario;
 
     private Float puntuacion;

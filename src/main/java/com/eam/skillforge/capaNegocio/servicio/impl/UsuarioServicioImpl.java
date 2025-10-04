@@ -37,6 +37,18 @@ public class UsuarioServicioImpl implements UsuarioServicio {
         return usuarioEncontrado;
     }
 
+    @Override
+    public UsuarioDto buscarPorId(Long usuarioId) {
+        log.debug("Buscando usuario por ID: {}", usuarioId);
+
+        return usuarioDAO.buscarPorId(usuarioId)
+                .orElseThrow(() -> {
+                    log.warn("Usuario no encontrado con ID: {}", usuarioId);
+                    return new RuntimeException("Usuario no encontrado con ID: " + usuarioId);
+                });
+
+    }
+
 
 }
 

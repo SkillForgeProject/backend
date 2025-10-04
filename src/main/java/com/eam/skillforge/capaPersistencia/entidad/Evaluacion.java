@@ -18,13 +18,13 @@ public class Evaluacion {
     private Long id;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "modulo_id")
+    @JoinColumn(name = "moduloId")
     private Modulo modulo;
 
     private String titulo;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "tipoEvaluacion_id")
+    @JoinColumn(name = "id_tipo_evaluacion")
     private TipoEvaluacion tipoEvaluacion;
 
     private Integer puntajeMax;

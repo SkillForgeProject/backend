@@ -19,7 +19,7 @@ public class UsuarioDto {
             description = "Identificador único del usuario",
             example = "101", accessMode = Schema.AccessMode.READ_ONLY
     )
-    private int id;
+    private Long id;
 
     @Schema(
             description = "Contraseña del usuario (debe estar cifrada antes de almacenarse)",

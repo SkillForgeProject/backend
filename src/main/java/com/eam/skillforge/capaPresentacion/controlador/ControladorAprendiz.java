@@ -22,12 +22,23 @@ public class ControladorAprendiz {
     @PutMapping
     @Operation(summary = "Actualizar progreso del módulo")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "Actualización realizada"),
+            @ApiResponse(responseCode = "200", description = "Actualización realizada"),
             @ApiResponse(responseCode = "500", description = "Actualización fallida"),
             @ApiResponse(responseCode = "404", description =  "No se encontró el módulo")
     })
     public ResponseEntity<UsuarioDto> postUsuario(@RequestParam int usuarioId, @RequestParam Double progreso, @RequestParam int moduloId) {
         aprendizServicio.putProgresoModulo(usuarioId, progreso, moduloId);
         return new ResponseEntity(HttpStatus.OK);
+    }
+    @GetMapping
+    @Operation(summary = "Obtener progreso curso")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Se obtuvo el progreso del curso"),
+            @ApiResponse(responseCode = "500", description = "Error al actualizar"),
+            @ApiResponse(responseCode = "404", description = "No se encontró el curso")
+    })
+    public ResponseEntity<Double> getProgresoCurso(@RequestParam int usuarioId, @RequestParam int cursoId ){
+        Double progreso = aprendizServicio.getProgresoCurso(usuarioId, cursoId);
+        return new ResponseEntity<>(progreso, HttpStatus.OK);
     }
 }

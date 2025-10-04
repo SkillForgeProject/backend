@@ -22,4 +22,8 @@ public class AprendizDAO {
     public void actualizarProgresoModulo(int usuarioId, Double progreso, int moduloId) {
         aprendizRepositorio.actualizarProgresoModulo(usuarioId, progreso, moduloId);
     }
+
+    public Double obtenerProgresoCurso(int usuarioId, int cursoId) {
+        return aprendizRepositorio.obtenerProgresoPorIdCurso(usuarioId, cursoId);
+    }
 }

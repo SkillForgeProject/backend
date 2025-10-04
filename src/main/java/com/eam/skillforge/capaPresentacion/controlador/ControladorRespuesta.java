@@ -1,29 +1,34 @@
 package com.eam.skillforge.capaPresentacion.controlador;
 
+import com.eam.skillforge.capaNegocio.dto.EnvioEvaluacionDto;
+import com.eam.skillforge.capaNegocio.dto.RespuestaDto;
+import com.eam.skillforge.capaNegocio.servicio.RespuestaServicio;
 import com.eam.skillforge.capaPersistencia.entidad.Respuesta;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/examenes")
+@RequestMapping("/respuestas")
+@RequiredArgsConstructor
+@Slf4j
+@Tag(name = "Respuestas", description = "Operaciones para la gestión de las respuestas")
+@CrossOrigin(origins = "*")
 public class ControladorRespuesta {
 
-    /*private final ServicioRespuest servicio;
-    public ControladorCertificado(ServicioRespuesta servicio) {
-        this.servicio = servicio;
-    }*/
+    private final RespuestaServicio respuestaServicio;
 
     @Operation(
             summary = "Enviar respuesta",
-            description = "Enviar una respuesta a un examen")
+            description = "Enviar una respuesta a una evaluación")
     @ApiResponses(value = {
             @ApiResponse(
                     responseCode = "201",
@@ -33,15 +38,23 @@ public class ControladorRespuesta {
             ),
             @ApiResponse(
                     responseCode = "500",
-                    description = "Error interno del servidor",
-                    content = @Content
+                    description = "Error interno del servidor"
             )
     })
     @PostMapping
-    public ResponseEntity<Respuesta> enviarRespuesta(
-            @RequestParam Long idUsuario,
-            @RequestParam Long idCurso,
-            @RequestParam Long idEvaluacion) {
-        return null;
+    public ResponseEntity<RespuestaDto> enviarRespuesta(
+            @RequestBody EnvioEvaluacionDto respuestas) {
+        log.info("POST /respuestas - Creando respuesta: {}", respuestas);
+        try {
+            RespuestaDto respuestaCreada = respuestaServicio.crearRespuesta(respuestas);
+            log.info("Respuesta creada satisfactoriamente con ID: {}", respuestaCreada.getId());
+            return ResponseEntity.status(HttpStatus.CREATED).body(respuestaCreada);
+        } catch (IllegalArgumentException e) {
+            log.warn("Error en la validación al crear la respuesta: {}", e.getMessage());
+            return ResponseEntity.badRequest().build();
+        } catch (Exception e) {
+            log.warn("Error interno del servidor: {}", e.getMessage());
+            return ResponseEntity.internalServerError().build();
+        }
     }
 }

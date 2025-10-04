@@ -1,13 +1,17 @@
 package com.eam.skillforge.capaNegocio.servicio.impl;
 
+import com.eam.skillforge.capaNegocio.dto.CursoDto;
 import com.eam.skillforge.capaNegocio.dto.UsuarioDto;
 import com.eam.skillforge.capaNegocio.excepciones.CorreoNoEncontradoExcepcion;
+import com.eam.skillforge.capaNegocio.servicio.CursoServicio;
 import com.eam.skillforge.capaNegocio.servicio.UsuarioServicio;
 import com.eam.skillforge.capaPersistencia.dao.UsuarioDAO;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @Transactional
@@ -17,6 +21,7 @@ import org.springframework.stereotype.Service;
 public class UsuarioServicioImpl implements UsuarioServicio {
 
     private final UsuarioDAO usuarioDAO;
+    private final CursoServicio cursoServicio;
 
     @Override
     public UsuarioDto getUsuarioPorCorreo(String correo){
@@ -47,6 +52,13 @@ public class UsuarioServicioImpl implements UsuarioServicio {
                     return new RuntimeException("Usuario no encontrado con ID: " + usuarioId);
                 });
 
+    }
+
+    @Override
+    public List<CursoDto> getCursosPorNivel(Long nivelId) {
+        log.debug("Buscando cursos por ID de nivel: {}", nivelId);
+
+        return cursoServicio.buscarCursosPorNivel(nivelId);
     }
 
 

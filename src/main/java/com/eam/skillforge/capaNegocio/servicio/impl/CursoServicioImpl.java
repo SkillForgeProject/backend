@@ -8,6 +8,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -26,5 +28,30 @@ public class CursoServicioImpl implements CursoServicio {
                     log.warn("Curso no encontrado con ID: {}", cursoId);
                     return new RuntimeException("Producto con encontrado con ID: " + cursoId);
                 });
+    }
+
+    @Override
+    public List<CursoDto> buscarCursosPorNivel(Long nivelId) {
+        return cursoDAO.buscarPorNivel(nivelId)
+                .orElseThrow(() -> {
+                    log.warn("Cursos no encontrados por ID de nivel: {}", nivelId);
+                    return new RuntimeException("Cursos no encontrados por ID de nivel" + nivelId);
+                });
+    }
+
+    @Override
+    public CursoDto actualizarCurso(Long id, CursoDto curso) {
+        log.info("Actualizando curso ID: {}", id);
+        getCursoPorId(id);
+
+        validarDataCurso(curso);
+
+        return cursoDAO.actualizar(id, curso)
+                .orElseThrow(() -> new RuntimeException("Error al actualizar el curso"));
+
+    }
+
+    private void validarDataCurso(CursoDto curso) {
+
     }
 }

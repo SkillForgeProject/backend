@@ -1,5 +1,6 @@
 package com.eam.skillforge.capaPresentacion.controlador;
 
+import com.eam.skillforge.capaNegocio.dto.CursoDto;
 import com.eam.skillforge.capaNegocio.dto.UsuarioDto;
 import com.eam.skillforge.capaNegocio.servicio.UsuarioServicio;
 import io.swagger.v3.oas.annotations.Operation;
@@ -14,12 +15,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 
 @RestController
 @RequestMapping("/usuario")
 @RequiredArgsConstructor
 @Slf4j
-@Tag(name = "Administrador")
+@Tag(name = "Usuario")
 public class ControladorUsuario {
 
     private final UsuarioServicio usuarioServicio;
@@ -35,5 +38,19 @@ public class ControladorUsuario {
         UsuarioDto usuario = usuarioServicio.getUsuarioPorCorreo(correo);
         return ResponseEntity.ok(usuario);
     }
+
+    @GetMapping("/curso/{nivelId}")
+    @Operation(summary = "Obtener los curso por Nivel") // INDUCCION, CAPACITACION, ESPECIALIZACION
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Cursos encontrados exitosamente"),
+            @ApiResponse(responseCode = "404", description = "Cursos no encontrados con ese nivel"),
+            @ApiResponse(responseCode = "500", description = "Error interno del servidor")
+    })
+    public ResponseEntity<List<CursoDto>> getCursosPorNivel(@PathVariable Long nivelId) {
+        log.info("GET usuario/curso/ - Obteniendo todos cursos por nivel ID: {}", nivelId);
+        List<CursoDto> cursos = usuarioServicio.getCursosPorNivel(nivelId);
+        return ResponseEntity.ok(cursos);
+    }
+
 }
 

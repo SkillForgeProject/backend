@@ -31,4 +31,10 @@ public class TutorDAO {
         return tutorRepositorio.findById(tutorId)
                 .map(tutorMapper::toDto);
     }
+
+    public CursoDto crearCurso(CursoDto curso) {
+        Curso entidad = cursoMapper.toEntidad(curso);
+        Curso guardada = cursoRepositorio.save(entidad);
+        return cursoMapper.toDTO(guardada);
+    }
 }

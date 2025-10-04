@@ -27,9 +27,13 @@ public class AprendizServicioImpl implements AprendizServicio {
                 });
     }
 
-    public void putProgresoModulo(int usuarioId,Double progreso, int moduloId) {
+    @Transactional(readOnly = true)
+    public void putProgresoModulo(int usuarioId, Double progreso, int moduloId) {
         aprendizDAO.actualizarProgresoModulo(usuarioId, progreso, moduloId);
     }
 
-
+    @Transactional(readOnly = true)
+    public Double getProgresoCurso(int usuarioId, int cursoId) {
+        return aprendizDAO.obtenerProgresoCurso(usuarioId, cursoId);
+    }
 }

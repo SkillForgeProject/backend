@@ -19,4 +19,7 @@ public class AprendizDAO {
                 .map(aprendizMapper::toDto);
     }
 
+    public void actualizarProgresoModulo(int usuarioId, Double progreso, int moduloId) {
+        aprendizRepositorio.actualizarProgresoModulo(usuarioId, progreso, moduloId);
+    }
 }

@@ -3,23 +3,21 @@ package com.eam.skillforge.capaPersistencia.dao;
 import com.eam.skillforge.capaNegocio.dto.UsuarioDto;
 import com.eam.skillforge.capaNegocio.dto.UsuariosPorCursoMesDTO;
 import com.eam.skillforge.capaNegocio.excepciones.UsuarioNoEncontradoExcepcion;
-import com.eam.skillforge.capaPersistencia.entidad.Departamento;
 import com.eam.skillforge.capaPersistencia.entidad.Rol;
 import com.eam.skillforge.capaPersistencia.entidad.Usuario;
 import com.eam.skillforge.capaPersistencia.mapper.UsuarioMapper;
 import com.eam.skillforge.capaPersistencia.repositorio.DepartamentoRepositorio;
 import com.eam.skillforge.capaPersistencia.repositorio.RolRepositorio;
-import com.eam.skillforge.capaPersistencia.repositorio.UsuarioRepositorio;
+import com.eam.skillforge.capaPersistencia.repositorio.AdministradorRepositorio;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor
 public class AdministradorDAO {
-    private final UsuarioRepositorio usuarioRepositorio;
+    private final AdministradorRepositorio usuarioRepositorio;
     private final UsuarioMapper usuarioMapper;
     private final RolRepositorio rolRepositorio;
     private final DepartamentoRepositorio departamentoRepositorio;

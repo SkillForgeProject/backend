@@ -27,5 +27,9 @@ public class AprendizServicioImpl implements AprendizServicio {
                 });
     }
 
+    public void putProgresoModulo(int usuarioId,Double progreso, int moduloId) {
+        aprendizDAO.actualizarProgresoModulo(usuarioId, progreso, moduloId);
+    }
+
 
 }

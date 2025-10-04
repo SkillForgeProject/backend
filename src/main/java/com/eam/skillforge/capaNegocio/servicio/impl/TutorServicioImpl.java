@@ -58,4 +58,27 @@ public class TutorServicioImpl implements TutorServicio {
 
         log.info("Curso eliminado satisfactoriamente ID: {}", cursoId);
     }
+
+    @Override
+    public CursoDto crearCurso(CursoDto curso) {
+
+        validarDataCurso(curso);
+
+        CursoDto cursoCreado = tutorDAO.crearCurso(curso);
+        log.info("Curso creado satisfcatoriamente con ID: {}", cursoCreado.getId());
+        return cursoCreado;
+    }
+
+    private void validarDataCurso(CursoDto curso) {
+
+    }
 }
+
+
+
+
+
+
+
+
+

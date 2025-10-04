@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/usuario")
 @RequiredArgsConstructor
 @Slf4j
-@Tag(name = "Administrador")
+@Tag(name = "Usuario")
 public class ControladorUsuario {
 
     private final UsuarioServicio usuarioServicio;

@@ -13,4 +13,6 @@ public interface TutorServicio {
     Optional<UsuarioDto> getTutorPorId(Long tutorId);
 
     void eliminarCurso(Long tutorId);
+
+    CursoDto crearCurso(CursoDto curso);
 }

@@ -36,4 +36,13 @@ public class CursoDAO {
                 ? Optional.empty()
                 : Optional.of(cursoMapper.toDTOList(cursos));
     }
+
+    public Optional<CursoDto> actualizar(Long id, CursoDto curso) {
+        return cursoRepositorio.findById(id)
+                .map(entidadExistente -> {
+                    cursoMapper.actualizarEntidadDesdeDto(curso, entidadExistente);
+                    Curso entidadActualizada = cursoRepositorio.save(entidadExistente);
+                    return cursoMapper.toDTO(entidadActualizada);
+                });
+    }
 }

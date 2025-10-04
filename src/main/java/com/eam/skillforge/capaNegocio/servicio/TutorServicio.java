@@ -15,4 +15,6 @@ public interface TutorServicio {
     void eliminarCurso(Long tutorId);
 
     CursoDto crearCurso(CursoDto curso);
+
+    CursoDto actualizarCurso(Long cursoId, CursoDto curso);
 }

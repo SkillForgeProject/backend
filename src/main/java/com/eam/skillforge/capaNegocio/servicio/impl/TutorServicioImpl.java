@@ -70,8 +70,18 @@ public class TutorServicioImpl implements TutorServicio {
     }
 
     private void validarDataCurso(CursoDto curso) {
-
+        //TODO: implementar validaciones
     }
+
+    @Override
+    public CursoDto actualizarCurso(Long cursoId, CursoDto curso) {
+        log.info("Actualizando curso ID: {}", cursoId);
+
+        CursoDto cursoActualizado = cursoServicio.actualizarCurso(cursoId, curso);
+        log.info("Curso actualizado exitosamente ID: {}", cursoId);
+        return cursoActualizado;
+    }
+
 }
 
 

@@ -38,4 +38,20 @@ public class CursoServicioImpl implements CursoServicio {
                     return new RuntimeException("Cursos no encontrados por ID de nivel" + nivelId);
                 });
     }
+
+    @Override
+    public CursoDto actualizarCurso(Long id, CursoDto curso) {
+        log.info("Actualizando curso ID: {}", id);
+        getCursoPorId(id);
+
+        validarDataCurso(curso);
+
+        return cursoDAO.actualizar(id, curso)
+                .orElseThrow(() -> new RuntimeException("Error al actualizar el curso"));
+
+    }
+
+    private void validarDataCurso(CursoDto curso) {
+
+    }
 }

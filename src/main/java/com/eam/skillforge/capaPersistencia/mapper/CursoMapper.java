@@ -4,10 +4,7 @@ package com.eam.skillforge.capaPersistencia.mapper;
 import com.eam.skillforge.capaNegocio.dto.CursoDto;
 import com.eam.skillforge.capaPersistencia.entidad.Categoria;
 import com.eam.skillforge.capaPersistencia.entidad.Curso;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.Named;
-import org.mapstruct.ReportingPolicy;
+import org.mapstruct.*;
 
 import java.util.List;
 
@@ -27,6 +24,11 @@ public interface CursoMapper {
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "categoria", source = "id_categoria", qualifiedByName = "crearEntidadCategoriaPorId")
     Curso toEntidad(CursoDto cursoDto);
+
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "tutor", ignore = true)
+    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+    void actualizarEntidadDesdeDto(CursoDto curso, @MappingTarget Curso entidad);
 
     /**
      * función auxiliar: Crea la entidad Categoría con solo el ID

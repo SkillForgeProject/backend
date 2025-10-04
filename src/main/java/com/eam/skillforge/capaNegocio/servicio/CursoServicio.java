@@ -8,4 +8,6 @@ public interface CursoServicio {
     CursoDto getCursoPorId(Long cursoId);
 
     List<CursoDto> buscarCursosPorNivel(Long nivelId);
+
+    CursoDto actualizarCurso(Long id, CursoDto curso);
 }

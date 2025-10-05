@@ -1,6 +1,7 @@
 package com.eam.skillforge.capaNegocio.excepciones;
 
-import lombok.extern.slf4j.Slf4j;
+import java.sql.SQLException;
+
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,7 +11,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
-import java.sql.SQLException;
+import lombok.extern.slf4j.Slf4j;
 
 @RestControllerAdvice
 @Slf4j
@@ -111,7 +112,6 @@ public class ManejoGlobalExcepcion {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
     }
 
-    // ==================== EXCEPCIONES DE BASE DE DATOS ====================
     @ExceptionHandler(DataIntegrityViolationException.class)
     public ResponseEntity<ErrorResponse<String>> manejarViolacionIntegridad(DataIntegrityViolationException ex) {
         String mensaje = "Error de integridad de datos. Verifique que los datos no violen las restricciones de la base de datos";
@@ -142,6 +142,19 @@ public class ManejoGlobalExcepcion {
         log.error("Excepción no controlada: {}", ex.getMessage(), ex);
         ErrorResponse<String> errorResponse = new ErrorResponse<>(mensaje, "Error interno del servidor", HttpStatus.INTERNAL_SERVER_ERROR.value());
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
+    }
+
+    @ExceptionHandler(ModuloNoEncontradoExcepcion.class)
+    public ResponseEntity<ErrorResponse> manejarModuloNoEncontrado(ModuloNoEncontradoExcepcion ex) {
+        log.warn("Módulo no encontrado: {}", ex.getMessage());
+
+        ErrorResponse<String> errorResponse = new ErrorResponse<>(
+                "Módulo no encontrado",
+                "No se encontró un módulo con el ID especificado",
+                HttpStatus.NOT_FOUND.value()
+        );
+        
+        return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
     }
 
     public static class ErrorResponse<T> {

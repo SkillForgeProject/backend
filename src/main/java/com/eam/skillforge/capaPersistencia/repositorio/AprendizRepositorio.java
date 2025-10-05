@@ -38,5 +38,7 @@ public interface AprendizRepositorio extends JpaRepository<Usuario, Long> {
         """, nativeQuery = true)
     List<Curso> getCursosPorIdUsuario(Long usuarioId);
 
+    @Query("SELECT COUNT(c) FROM Certificado c WHERE c.usuario.id = :usuarioId")
+    Integer getCantidadCertificaciones(@Param("usuarioId") Long usuarioId);
 
 }

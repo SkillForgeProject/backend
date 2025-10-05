@@ -1,6 +1,7 @@
 package com.eam.skillforge.capaPersistencia.dao;
 
 import com.eam.skillforge.capaNegocio.dto.CursoDto;
+import com.eam.skillforge.capaNegocio.dto.TopCursoDto;
 import com.eam.skillforge.capaPersistencia.entidad.Curso;
 import com.eam.skillforge.capaPersistencia.mapper.CursoMapper;
 import com.eam.skillforge.capaPersistencia.repositorio.CursoRepositorio;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Repository
 @RequiredArgsConstructor
@@ -44,5 +46,17 @@ public class CursoDAO {
                     Curso entidadActualizada = cursoRepositorio.save(entidadExistente);
                     return cursoMapper.toDTO(entidadActualizada);
                 });
+    }
+
+    public List<TopCursoDto> getTopCursosMejoresPuntuados() {
+        List<Object[]> resultados = cursoRepositorio.findTopCursosMejoresPuntuados();
+        
+        return resultados.stream()
+                .map(resultado -> new TopCursoDto(
+                        ((Number) resultado[0]).longValue(),  // id
+                        (String) resultado[1],                // titulo
+                        ((Number) resultado[2]).doubleValue() // puntuacion
+                ))
+                .collect(Collectors.toList());
     }
 }

@@ -38,4 +38,8 @@ public class AprendizDAO {
         return cursoMapper.toDTOList(cursos);
 
     }
+
+    public Integer getCantidadCertificaciones(Long usuarioId) {
+        return aprendizRepositorio.getCantidadCertificaciones(usuarioId);
+    }
 }

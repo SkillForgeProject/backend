@@ -20,11 +20,11 @@ public class Certificado {
     private Long id;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "usuario_id")
+    @JoinColumn(name = "usuarioId")
     private Usuario usuario;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "curso_id")
+    @JoinColumn(name = "cursoId")
     private Curso curso;
 
     private LocalDateTime fechaEmision;

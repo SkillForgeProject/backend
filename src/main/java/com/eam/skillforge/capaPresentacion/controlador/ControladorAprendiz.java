@@ -50,7 +50,7 @@ public class ControladorAprendiz {
     @GetMapping("/{usuarioId}/cursos")
     @Operation(summary = "Obtiene los cursos a los que pertenece un aprendiz por el id del usuario")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Se obtuvo loss cursos"),
+            @ApiResponse(responseCode = "200", description = "Se obtuvo los cursos"),
             @ApiResponse(responseCode = "500", description = "Error al obtener los cursos"),
             @ApiResponse(responseCode = "404", description = "No se encontraron los cursos")
     })
@@ -58,5 +58,20 @@ public class ControladorAprendiz {
         log.info("GET aprendiz/{id}/cursos - Obteniendo todos cursos por ID: {} de usuario", usuarioId);
         List<CursoDto> cursos = aprendizServicio.getCursosPorIdUsuario(usuarioId);
         return new ResponseEntity<>(cursos, HttpStatus.OK);
+    }
+
+    @GetMapping("{usuarioId}/certificaciones/cantidad")
+    @Operation(summary = "Obtiene la cantidad de certificaciones que un aprendiz ha obtenido")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Obtiene la cantidad de certificaciones"),
+            @ApiResponse(responseCode = "500", description = "Error al obtener las certificaciones"),
+            @ApiResponse(responseCode = "404", description = "No se encontró el recurso")
+    })
+    public ResponseEntity<Integer> getCantidadCertificaciones(@PathVariable Long usuarioId) {
+        log.info("GET aprendiz/{}/certificaciones/cantidad - Obteniendo cantidad de certificaciones", usuarioId);
+        Integer cantidad = aprendizServicio.getCantidadCertificaciones(usuarioId);
+        log.info("Se encontraron {} cerficaciones con el ID de usuario: {}", cantidad, usuarioId);
+        return ResponseEntity.ok(cantidad);
+
     }
 }

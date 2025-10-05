@@ -1,10 +1,9 @@
 package com.eam.skillforge.capaPresentacion.controlador;
 
-import com.eam.skillforge.capaNegocio.dto.CursoDiferenciaUsuariosDto;
-import com.eam.skillforge.capaNegocio.dto.CursoDto;
-import com.eam.skillforge.capaNegocio.dto.TopCursoDto;
+import com.eam.skillforge.capaNegocio.dto.*;
 import com.eam.skillforge.capaNegocio.servicio.CursoServicio;
 import com.eam.skillforge.capaPersistencia.entidad.Curso;
+
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -13,11 +12,16 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
+import com.eam.skillforge.capaNegocio.dto.CursoDto;
+
+import io.swagger.v3.oas.annotations.Parameter;
 
 @RestController
 @RequestMapping("/curso")
@@ -216,5 +220,26 @@ public class ControladorCurso {
         return new ResponseEntity<>(cursos, HttpStatus.OK);
     }
 
+    @GetMapping("/por-inscripcion/{cursoId}")
+    @Operation(
+        summary = "Obtener cursos por inscripción",
+        description = "Obtiene la información de cursos basada en las inscripciones para un curso específico"
+    )
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Cursos obtenidos exitosamente"),
+        @ApiResponse(responseCode = "404", description = "No se encontraron cursos para el ID especificado"),
+        @ApiResponse(responseCode = "500", description = "Error interno del servidor")
+    })
+    public ResponseEntity<List<UsuarioDto>> getCursosPorInscripcion(
+            @Parameter(description = "ID del curso para buscar inscripciones", required = true)
+            @PathVariable Long cursoId) {
+
+        log.info("Solicitud para obtener cursos por inscripción del curso ID: {}", cursoId);
+
+        List<UsuarioDto> usuarios = cursoServicio.getCursosPorInscripcion(cursoId);
+
+        log.info("Se encontraron {} cursos por inscripción para el curso ID: {}", usuarios.size(), cursoId);
+        return ResponseEntity.ok(usuarios);
+    }
 
 }

@@ -1,16 +1,17 @@
 package com.eam.skillforge.capaPersistencia.repositorio;
 
-import com.eam.skillforge.capaNegocio.dto.CursoDto;
-import com.eam.skillforge.capaNegocio.dto.TopCursoDto;
-import com.eam.skillforge.capaPersistencia.entidad.Curso;
+import java.util.List;
+
+import com.eam.skillforge.capaPersistencia.entidad.Usuario;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-    import java.util.List;
+import com.eam.skillforge.capaPersistencia.entidad.Curso;
 
-    @Repository
-    public interface CursoRepositorio extends JpaRepository<Curso, Long> {
+@Repository
+public interface CursoRepositorio extends JpaRepository<Curso, Long> {
 
         List<Curso> findByTutorId(Long tutorId);
 
@@ -39,11 +40,16 @@ import org.springframework.stereotype.Repository;
             ORDER BY diferenciaUsuarios ASC
             LIMIT 6
             """, nativeQuery = true)
-        List<Object[]> findCursosMasTomados();
+    List<Object[]> findCursosMasTomados();
 
-        @Query("SELECT c FROM Curso c WHERE c.isActivo = true")
-        List<Curso> getCursosActivos();
+    @Query(value = """
+            SELECT DISTINCT U.*
+            FROM inscripcion AS INS
+            INNER JOIN usuario AS U ON INS.usuarioId = U.id
+            WHERE INS.cursoId = :cursoId
+            """, nativeQuery = true)
+    List<Usuario> findUsuariosPorCursoId(@Param("cursoId") Long cursoId);
 
-
-
-    }
+    @Query("SELECT c FROM Curso c WHERE c.isActivo = true")
+    List<Curso> getCursosActivos();
+}

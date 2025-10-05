@@ -3,21 +3,29 @@ package com.eam.skillforge.capaPersistencia.dao;
 import com.eam.skillforge.capaNegocio.dto.CursoDto;
 import com.eam.skillforge.capaNegocio.dto.CursoDiferenciaUsuariosDto;
 import com.eam.skillforge.capaNegocio.dto.TopCursoDto;
+import com.eam.skillforge.capaNegocio.dto.UsuarioDto;
 import com.eam.skillforge.capaPersistencia.entidad.Curso;
+import com.eam.skillforge.capaPersistencia.entidad.Usuario;
 import com.eam.skillforge.capaPersistencia.mapper.CursoMapper;
+import com.eam.skillforge.capaPersistencia.mapper.UsuarioMapper;
 import com.eam.skillforge.capaPersistencia.repositorio.CursoRepositorio;
+
 import lombok.RequiredArgsConstructor;
+
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import com.eam.skillforge.capaNegocio.excepciones.CursoNoEncontradoExcepcion;
+
 @Repository
 @RequiredArgsConstructor
 public class CursoDAO {
     private final CursoRepositorio cursoRepositorio;
     private final CursoMapper cursoMapper;
+    private final UsuarioMapper usuarioMapper;
 
     public Optional<CursoDto> buscarPorId(Long id) {
         return cursoRepositorio.findById(id)
@@ -71,6 +79,19 @@ public class CursoDAO {
                         (String) resultado[2]                 // titulo
                 ))
                 .collect(Collectors.toList());
+    }
+
+    public List<UsuarioDto> getCursosPorInscripcion(Long cursoId) {
+        
+        List<Usuario> usuarios = cursoRepositorio.findUsuariosPorCursoId(cursoId);
+        
+        if (usuarios.isEmpty()) {
+            throw new CursoNoEncontradoExcepcion("No se encontraron cursos para el ID: " + cursoId);
+        }
+        
+        List<UsuarioDto> usuariosDto = usuarioMapper.toDTOList(usuarios);
+        
+        return usuariosDto;
     }
 
     public List<CursoDto> getCursosActivos(){

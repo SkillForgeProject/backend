@@ -1,10 +1,12 @@
 package com.eam.skillforge.capaNegocio.servicio.impl;
 
+import com.eam.skillforge.capaNegocio.dto.CreacionEvaluacionDto;
 import com.eam.skillforge.capaNegocio.dto.CursoDto;
 import com.eam.skillforge.capaNegocio.dto.ModuloDto;
 import com.eam.skillforge.capaNegocio.dto.UsuarioDto;
 import com.eam.skillforge.capaNegocio.excepciones.UsuarioNoAutorizadoExcepcion;
 import com.eam.skillforge.capaNegocio.servicio.CursoServicio;
+import com.eam.skillforge.capaNegocio.servicio.EvaluacionServicio;
 import com.eam.skillforge.capaNegocio.servicio.ModuloServicio;
 import com.eam.skillforge.capaNegocio.servicio.TutorServicio;
 import com.eam.skillforge.capaPersistencia.dao.CursoDAO;
@@ -116,4 +118,7 @@ public class TutorServicioImpl implements TutorServicio {
         }
     }
 
+    public void crearEvaluacion(CreacionEvaluacionDto creacionEvaluacion) {
+        tutorDAO.crearEvaluacion(creacionEvaluacion);
+    }
 }

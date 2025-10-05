@@ -1,16 +1,8 @@
 package com.eam.skillforge.capaNegocio.servicio.impl;
 
-import com.eam.skillforge.capaNegocio.dto.CreacionEvaluacionDto;
-import com.eam.skillforge.capaNegocio.dto.CursoDto;
-import com.eam.skillforge.capaNegocio.dto.InscripcionDto;
-import com.eam.skillforge.capaNegocio.dto.ModuloDto;
-import com.eam.skillforge.capaNegocio.dto.UsuarioDto;
+import com.eam.skillforge.capaNegocio.dto.*;
 import com.eam.skillforge.capaNegocio.excepciones.UsuarioNoAutorizadoExcepcion;
-import com.eam.skillforge.capaNegocio.servicio.CursoServicio;
-import com.eam.skillforge.capaNegocio.servicio.EvaluacionServicio;
-import com.eam.skillforge.capaNegocio.servicio.ModuloServicio;
-import com.eam.skillforge.capaNegocio.servicio.TutorServicio;
-import com.eam.skillforge.capaNegocio.servicio.UsuarioServicio;
+import com.eam.skillforge.capaNegocio.servicio.*;
 import com.eam.skillforge.capaPersistencia.dao.CursoDAO;
 import com.eam.skillforge.capaPersistencia.dao.ModuloDAO;
 import com.eam.skillforge.capaPersistencia.dao.TutorDAO;
@@ -20,7 +12,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -38,6 +32,7 @@ public class TutorServicioImpl implements TutorServicio {
     private final CursoServicio cursoServicio;
     private final ModuloServicio moduloServicio;
     private final UsuarioServicio usuarioServicio;
+    private final ModuloRecursoServicio moduloRecursoServicio;
 
     @Override
     public List<CursoDto> getCursosPorTutorId(Long tutorId) {
@@ -138,6 +133,7 @@ public class TutorServicioImpl implements TutorServicio {
     public void crearEvaluacion(CreacionEvaluacionDto creacionEvaluacion) {
         tutorDAO.crearEvaluacion(creacionEvaluacion);
     }
+
     @Override
     public InscripcionDto asignarCurso(Long usuarioId, Long cursoId) {
         log.info("Asignando curso al usuario con ID: {} : {}", usuarioId, cursoId);
@@ -168,6 +164,18 @@ public class TutorServicioImpl implements TutorServicio {
 
 
         return inscripciones.getLast();
+    }
+
+    @Override
+    public ModuloRecursoDto cargarRecurso(Long moduloId, Long recursoId, MultipartFile archivo, String url) {
+
+        try {
+            ModuloRecursoDto recursoCreado = moduloRecursoServicio.cargarRecurso(moduloId, recursoId, archivo, url);
+            log.info("Recurso creado satisfactoriamente con ID: {}", recursoCreado.getId());
+            return recursoCreado;
+        } catch (IOException e) {
+            return new ModuloRecursoDto();
+        }
     }
 
 }

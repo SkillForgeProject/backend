@@ -29,5 +29,5 @@ public class Modulo {
     @JoinColumn(name = "tipo")   // la FK en la tabla modulo
     private Recurso recurso;
 
-    private String orden;
+    private Long orden;
 }

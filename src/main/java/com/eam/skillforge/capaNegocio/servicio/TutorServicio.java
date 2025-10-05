@@ -1,6 +1,7 @@
 package com.eam.skillforge.capaNegocio.servicio;
 
 import com.eam.skillforge.capaNegocio.dto.CursoDto;
+import com.eam.skillforge.capaNegocio.dto.ModuloDto;
 import com.eam.skillforge.capaNegocio.dto.UsuarioDto;
 
 import java.util.List;
@@ -17,4 +18,8 @@ public interface TutorServicio {
     CursoDto crearCurso(CursoDto curso);
 
     CursoDto actualizarCurso(Long cursoId, CursoDto curso);
+
+    ModuloDto crearModulo(ModuloDto modulo);
+
+    ModuloDto actualizarModulo(Long moduloId, ModuloDto modulo);
 }

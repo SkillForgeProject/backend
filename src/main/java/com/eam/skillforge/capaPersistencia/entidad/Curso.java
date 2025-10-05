@@ -31,4 +31,6 @@ public class Curso {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_tutor", nullable = false)
     private Usuario tutor;
+
+    private Boolean isActivo = false;
 }

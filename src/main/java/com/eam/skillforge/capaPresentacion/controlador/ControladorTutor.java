@@ -1,6 +1,7 @@
 package com.eam.skillforge.capaPresentacion.controlador;
 
 import com.eam.skillforge.capaNegocio.dto.CursoDto;
+import com.eam.skillforge.capaNegocio.dto.ModuloDto;
 import com.eam.skillforge.capaNegocio.servicio.TutorServicio;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -61,6 +62,28 @@ public class ControladorTutor {
                 return ResponseEntity.notFound().build();
             }
             log.warn("Error al actualizar el curso ID: {}", cursoId);
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
+
+    @PostMapping("/modulos")
+    @Operation(summary = "Crear módulo")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Módulo creado"),
+            @ApiResponse(responseCode = "500", description = "Creación fallida"),
+            @ApiResponse(responseCode = "400", description = "Error en los campos del módulo"),
+            @ApiResponse(responseCode = "404", description =  "No se encontró el recurso")
+    })
+    public ResponseEntity<ModuloDto> postModulo(@RequestBody ModuloDto modulo) {
+        log.info("POST /tutor/modulos - Creando modulo: {}", modulo);
+
+        try {
+            ModuloDto moduloCreado = tutorServicio.crearModulo(modulo);
+            log.info("Módulo creado exitosamente con ID: {}", moduloCreado.getId());
+            return ResponseEntity.status(HttpStatus.CREATED).body(moduloCreado);
+        } catch (IllegalArgumentException e) {
+            log.warn("Error en la validación al crear el modulo: {}", e.getMessage());
             return ResponseEntity.badRequest().build();
         }
     }

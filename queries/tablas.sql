@@ -33,6 +33,7 @@ CREATE TABLE Curso (
   duracionEstim integer,
   nivel int,
   id_tutor int,
+  isActivo BOOLEAN,
   FOREIGN KEY (id_tutor) REFERENCES usuario(id)
 );
 

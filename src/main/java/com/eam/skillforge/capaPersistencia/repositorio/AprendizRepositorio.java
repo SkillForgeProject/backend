@@ -1,11 +1,14 @@
 package com.eam.skillforge.capaPersistencia.repositorio;
 
+import com.eam.skillforge.capaPersistencia.entidad.Curso;
 import com.eam.skillforge.capaPersistencia.entidad.Usuario;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.NativeQuery;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -26,4 +29,14 @@ public interface AprendizRepositorio extends JpaRepository<Usuario, Long> {
     Double obtenerProgresoPorIdCurso(@Param("usuarioId") int usuarioId,@Param("cursoId") int cursoId);
 
     Optional<Usuario> findByEmail(String email);
+
+    @Query(value = """
+        SELECT c.*
+        FROM curso c
+        INNER JOIN inscripcion i ON c.id = i.cursoId
+        WHERE i.usuarioId = :usuarioId
+        """, nativeQuery = true)
+    List<Curso> getCursosPorIdUsuario(Long usuarioId);
+
+
 }

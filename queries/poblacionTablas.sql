@@ -65,6 +65,9 @@ VALUES
 INSERT INTO Certificado (usuarioId, cursoId, fechaEmision, hash)
 VALUES
 (3, 1, NOW() - INTERVAL 5 DAY, MD5(CONCAT('3','1',NOW())));
+(3, 1, NOW() - INTERVAL 5 DAY, MD5(CONCAT('3','1',NOW())));
+(3, 1, NOW() - INTERVAL 5 DAY, MD5(CONCAT('3','1',NOW())));
+(3, 1, NOW() - INTERVAL 5 DAY, MD5(CONCAT('3','1',NOW())));
 
 -- BADGES
 INSERT INTO Badge (nombre, criterio, icono, id_usuario)

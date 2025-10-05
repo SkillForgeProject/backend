@@ -54,4 +54,17 @@ public class AprendizServicioImpl implements AprendizServicio {
         }
         return cursos;
     }
+
+    @Override
+    public Integer getCantidadCertificaciones(Long usuarioId) {
+        log.info("Buscando cantidad de certificaciones con ID de usuario: {}", usuarioId);
+        Integer cantidad = aprendizDAO.getCantidadCertificaciones(usuarioId);
+        if(cantidad == 0) {
+            log.warn("No se encontraron certificacioens para el usuario con ID: {}", usuarioId);
+        } else {
+            log.info("Se encontraron {} certificaciones para el usuario con ID: {}", cantidad, usuarioId);
+        }
+
+        return cantidad;
+    }
 }

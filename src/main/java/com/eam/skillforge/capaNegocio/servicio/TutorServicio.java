@@ -1,11 +1,11 @@
 package com.eam.skillforge.capaNegocio.servicio;
 
+import java.util.List;
+import java.util.Optional;
+
 import com.eam.skillforge.capaNegocio.dto.CursoDto;
 import com.eam.skillforge.capaNegocio.dto.ModuloDto;
 import com.eam.skillforge.capaNegocio.dto.UsuarioDto;
-
-import java.util.List;
-import java.util.Optional;
 
 public interface TutorServicio {
 
@@ -22,4 +22,6 @@ public interface TutorServicio {
     ModuloDto crearModulo(ModuloDto modulo);
 
     ModuloDto actualizarModulo(Long moduloId, ModuloDto modulo);
+
+    boolean eliminarModuloPorId(Long id);
 }

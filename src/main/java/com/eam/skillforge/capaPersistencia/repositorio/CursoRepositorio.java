@@ -17,7 +17,7 @@ import org.springframework.stereotype.Repository;
         @Query("SELECT c FROM Curso c WHERE c.categoria.id = :nivelId")
         List<Curso> findByNivel(Long nivelId);
 
-    @Query(value = """
+        @Query(value = """
             SELECT CURS.id, CURS.titulo, AVG(CURS_PUNT.puntuacion) as puntuacion
             FROM cursos_puntuacion AS CURS_PUNT
             INNER JOIN curso AS CURS ON CURS_PUNT.cursoId = CURS.id
@@ -25,9 +25,9 @@ import org.springframework.stereotype.Repository;
             ORDER BY puntuacion DESC
             LIMIT 4
             """, nativeQuery = true)
-    List<Object[]> findTopCursosMejoresPuntuados();
+        List<Object[]> findTopCursosMejoresPuntuados();
 
-    @Query(value = """
+        @Query(value = """
             SELECT 
                 ( (SELECT COUNT(id) FROM usuario WHERE id_rol = 3) - COUNT(INS.usuarioId) ) AS diferenciaUsuarios,
                 CURS.id AS cursoId,
@@ -39,5 +39,11 @@ import org.springframework.stereotype.Repository;
             ORDER BY diferenciaUsuarios ASC
             LIMIT 6
             """, nativeQuery = true)
-    List<Object[]> findCursosMasTomados();
-}
+        List<Object[]> findCursosMasTomados();
+
+        @Query("SELECT c FROM Curso c WHERE c.isActivo = true")
+        List<Curso> getCursosActivos();
+
+
+
+    }

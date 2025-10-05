@@ -58,4 +58,6 @@ public class CursoDto {
 
     private Long tutorId;
 
+    private Boolean isActivo = false;
+
 }

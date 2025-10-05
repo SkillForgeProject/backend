@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import com.eam.skillforge.capaNegocio.dto.CursoDto;
+import com.eam.skillforge.capaNegocio.dto.InscripcionDto;
 import com.eam.skillforge.capaNegocio.dto.ModuloDto;
 import com.eam.skillforge.capaNegocio.dto.UsuarioDto;
 
@@ -24,4 +25,6 @@ public interface TutorServicio {
     ModuloDto actualizarModulo(Long moduloId, ModuloDto modulo);
 
     boolean eliminarModuloPorId(Long id);
+
+    InscripcionDto asignarCurso(Long usuarioId, Long cursoId);
 }

@@ -1,6 +1,7 @@
 package com.eam.skillforge.capaPresentacion.controlador;
 
 import com.eam.skillforge.capaNegocio.dto.CursoDto;
+import com.eam.skillforge.capaNegocio.dto.InscripcionDto;
 import com.eam.skillforge.capaNegocio.dto.UsuarioDto;
 import com.eam.skillforge.capaNegocio.servicio.TutorServicio;
 
@@ -220,6 +221,32 @@ public class ControladorInstructor {
                 return ResponseEntity.notFound().build();
             }
             log.warn("Error al actualizar módulo ID: {}: {}", moduloId, e.getMessage());
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
+    @PostMapping("/cursos/agregar/{usuarioId}/{cursoId}")
+    @Operation(
+            summary = "Asignar curso a un ususario a través de sus IDs",
+            description = "Asigna un curso a un usuario a través de sus IDs"
+    )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "asignación exitosa"),
+            @ApiResponse(responseCode = "404", description = "Usuario o Curso no encontrado"),
+            @ApiResponse(responseCode = "500", description = "Error interno del servidor")
+    })
+    public ResponseEntity<InscripcionDto> asignarUsuarioACurso(@PathVariable Long usuarioId, @PathVariable Long cursoId) {
+        log.info("PUT /tutor/cursos/agregar/{}/{} - Asignando curso", usuarioId, cursoId);
+        try {
+            InscripcionDto inscrito = tutorServicio.asignarCurso(usuarioId, cursoId);
+            log.info("curso asignado exitosamente ID: {}", inscrito.getId());
+            return ResponseEntity.ok(inscrito);
+        } catch (RuntimeException e) {
+            if(e.getMessage().contains("no encontrado")) {
+                log.warn("Usuario o curos no encontrados para asignar ID: {}, {}", usuarioId, cursoId);
+                return ResponseEntity.notFound().build();
+            }
+            log.warn("Error al actualizar módulo ID: {}, {}: {}", usuarioId, cursoId, e.getMessage());
             return ResponseEntity.badRequest().build();
         }
     }

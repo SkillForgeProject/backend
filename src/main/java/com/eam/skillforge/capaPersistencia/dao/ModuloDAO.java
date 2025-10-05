@@ -10,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -61,5 +62,10 @@ public class ModuloDAO {
     public Optional<ModuloDto> buscarPorId(Long moduloId) {
         return moduloRepositorio.findById(moduloId)
                 .map(moduloMapper::toDto);
+    }
+
+    public List<ModuloDto> getModulosPorCursoId(Long cursoId) {
+        List<Modulo> entidades = moduloRepositorio.buscarPorCursoId(cursoId);
+        return moduloMapper.toDtoList(entidades);
     }
 }

@@ -6,6 +6,8 @@ import com.eam.skillforge.capaPersistencia.entidad.Modulo;
 import com.eam.skillforge.capaPersistencia.entidad.Recurso;
 import org.mapstruct.*;
 
+import java.util.List;
+
 @Mapper(
         componentModel = "spring",
         unmappedTargetPolicy = ReportingPolicy.WARN
@@ -15,6 +17,8 @@ public interface ModuloMapper {
     @Mapping(target = "cursoId", source = "curso.id")
     @Mapping(target = "recursoId", source = "recurso.id")
     ModuloDto toDto(Modulo entidad);
+
+    List<ModuloDto> toDtoList(List<Modulo> entidades);
 
 
     @Mapping(target = "id", ignore = true)

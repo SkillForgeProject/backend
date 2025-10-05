@@ -8,6 +8,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -44,5 +46,11 @@ public class ModuloServicioImpl implements ModuloServicio {
                     log.warn("Módulo no encontrado con ID: {}", id);
                     return new RuntimeException("Módulo no encontrado con ID: " + id);
                 });
+    }
+
+    @Override
+    public List<ModuloDto> getModulosPorCursoId(Long cursoId) {
+        log.debug("Buscando módulos por cursoId: {}", cursoId);
+        return moduloDAO.getModulosPorCursoId(cursoId);
     }
 }

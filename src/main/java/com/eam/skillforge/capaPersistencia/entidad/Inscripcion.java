@@ -19,16 +19,24 @@ public class Inscripcion {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_curso")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "cursoId", referencedColumnName = "id")
     private Curso curso;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "moduloId")
+    private Modulo modulo;
 
     private Float progreso;
 
     private LocalDateTime fechaInscripcion;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_estado")
+    @JoinColumn(name = "estado")
     private Estado estado;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "usuarioId")
+    private Usuario usuario;
 
 }

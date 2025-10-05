@@ -8,6 +8,8 @@ import org.mapstruct.Mapping;
 import org.mapstruct.Named;
 import org.mapstruct.ReportingPolicy;
 
+import java.util.List;
+
 @Mapper(
         componentModel = "spring",
         unmappedTargetPolicy = ReportingPolicy.WARN
@@ -19,6 +21,7 @@ public interface MedallaMapper {
     @Mapping(target = "idUsuario", source = "usuario.id")
     MedallaDto toDto(Medalla entidad);
 
+    List<MedallaDto> toDtoList(List<Medalla> entidades);
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "usuario", source = "idUsuario", qualifiedByName = "crearEntidadUsuarioDesdeId")

@@ -7,6 +7,8 @@ import com.eam.skillforge.capaPersistencia.repositorio.MedallaRepositorio;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 @RequiredArgsConstructor
 public class MedallaDAO {
@@ -17,5 +19,11 @@ public class MedallaDAO {
         Medalla entidad = medallaMapper.toEntidad(medallaDto);
         Medalla entidadGuardada = medallaRepositorio.save(entidad);
         return medallaMapper.toDto(entidadGuardada);
+    }
+
+    public List<MedallaDto> buscarPorUsuarioId(Long usuarioId) {
+        List<Medalla> entidades = medallaRepositorio.findByUsuarioId(usuarioId);
+
+        return medallaMapper.toDtoList(entidades);
     }
 }

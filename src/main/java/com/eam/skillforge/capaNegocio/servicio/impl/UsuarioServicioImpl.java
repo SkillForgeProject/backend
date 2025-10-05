@@ -1,0 +1,68 @@
+package com.eam.skillforge.capaNegocio.servicio.impl;
+
+import com.eam.skillforge.capaNegocio.dto.CursoDto;
+import com.eam.skillforge.capaNegocio.dto.UsuarioDto;
+import com.eam.skillforge.capaNegocio.excepciones.CorreoNoEncontradoExcepcion;
+import com.eam.skillforge.capaNegocio.servicio.CursoServicio;
+import com.eam.skillforge.capaNegocio.servicio.UsuarioServicio;
+import com.eam.skillforge.capaPersistencia.dao.UsuarioDAO;
+import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+@Service
+@Transactional
+@RequiredArgsConstructor
+@Slf4j
+
+public class UsuarioServicioImpl implements UsuarioServicio {
+
+    private final UsuarioDAO usuarioDAO;
+    private final CursoServicio cursoServicio;
+
+    @Override
+    public UsuarioDto getUsuarioPorCorreo(String correo){
+        log.info("Buscando usuario por correo: {}", correo);
+
+        if (correo == null || correo.trim().isEmpty()) {
+            throw new IllegalArgumentException("El correo no puede ser nulo o vacío");
+        }
+
+        UsuarioDto usuarioEncontrado = usuarioDAO.buscarPorCorreo(correo);
+
+        if (usuarioEncontrado == null) {
+            log.warn("No se encontró un usuario con el correo: {}", correo);
+            throw new CorreoNoEncontradoExcepcion("No se encontró un usuario con el correo: " + correo);
+        }
+
+        log.info("Usuario encontrado: {}", usuarioEncontrado.getEmail());
+        return usuarioEncontrado;
+    }
+
+    @Override
+    public UsuarioDto buscarPorId(Long usuarioId) {
+        log.debug("Buscando usuario por ID: {}", usuarioId);
+
+        return usuarioDAO.buscarPorId(usuarioId)
+                .orElseThrow(() -> {
+                    log.warn("Usuario no encontrado con ID: {}", usuarioId);
+                    return new RuntimeException("Usuario no encontrado con ID: " + usuarioId);
+                });
+
+    }
+
+    @Override
+    public List<CursoDto> getCursosPorNivel(Long nivelId) {
+        log.debug("Buscando cursos por ID de nivel: {}", nivelId);
+
+        return cursoServicio.buscarCursosPorNivel(nivelId);
+    }
+
+
+}
+
+
+

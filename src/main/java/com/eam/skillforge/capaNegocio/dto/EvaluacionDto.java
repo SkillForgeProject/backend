@@ -2,11 +2,17 @@ package com.eam.skillforge.capaNegocio.dto;
 
 import com.eam.skillforge.capaPersistencia.entidad.TipoEvaluacion;
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Schema(
         description = "Información de una evaluación dentro de un módulo"
 )
 
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class EvaluacionDto {
 
     @Schema(
@@ -21,7 +27,7 @@ public class EvaluacionDto {
             example = "101",
             required = true
     )
-    private int id_modulo;
+    private Long id_modulo;
 
     @Schema(
             description = "Título de la evaluación",
@@ -36,48 +42,13 @@ public class EvaluacionDto {
             example = "1",
             required = true
     )
-    private TipoEvaluacion id_tipo_evaluacion;
+    private Long id_tipo_evaluacion;
 
     @Schema(
             description = "Puntaje máximo de la evaluación",
             example = "100",
             required = true
     )
-    private int puntajeMax;
+    private Integer puntajeMax;
 
-
-    public int getId() {
-        return id;
-    }
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public int getId_modulo() {
-        return id_modulo;
-    }
-    public void setId_modulo(int id_modulo) {
-        this.id_modulo = id_modulo;
-    }
-
-    public String getTitulo() {
-        return titulo;
-    }
-    public void setTitulo(String titulo) {
-        this.titulo = titulo;
-    }
-
-    public TipoEvaluacion getId_tipo_evaluacion() {
-        return id_tipo_evaluacion;
-    }
-    public void setId_tipo_evaluacion(TipoEvaluacion id_tipo_evaluacion) {
-        this.id_tipo_evaluacion = id_tipo_evaluacion;
-    }
-
-    public int getPuntajeMax() {
-        return puntajeMax;
-    }
-    public void setPuntajeMax(int puntajeMax) {
-        this.puntajeMax = puntajeMax;
-    }
 }

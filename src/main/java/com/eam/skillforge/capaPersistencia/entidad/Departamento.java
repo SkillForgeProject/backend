@@ -1,5 +1,6 @@
 package com.eam.skillforge.capaPersistencia.entidad;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -10,6 +11,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 
 public class Departamento {
 
@@ -17,5 +19,5 @@ public class Departamento {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    private String departamento;
+    private String nombre;
 }

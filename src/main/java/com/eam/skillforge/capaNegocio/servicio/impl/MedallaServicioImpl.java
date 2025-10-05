@@ -2,6 +2,7 @@ package com.eam.skillforge.capaNegocio.servicio.impl;
 
 
 import com.eam.skillforge.capaNegocio.dto.MedallaDto;
+import com.eam.skillforge.capaNegocio.servicio.AprendizServicio;
 import com.eam.skillforge.capaNegocio.servicio.MedallaServicio;
 import com.eam.skillforge.capaPersistencia.dao.MedallaDAO;
 import jakarta.transaction.Transactional;
@@ -9,12 +10,15 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @Transactional
 @RequiredArgsConstructor
 @Slf4j
 public class MedallaServicioImpl implements MedallaServicio {
     private final MedallaDAO medallaDAO;
+    private final AprendizServicio usuarioServicio;
 
     @Override
     public MedallaDto crearMedalla(MedallaDto medallaDto) {
@@ -28,6 +32,16 @@ public class MedallaServicioImpl implements MedallaServicio {
         return medallaCreada;
     }
 
+    @Override
+    public List<MedallaDto> getMedallasPorUsuarioId(Long usuarioId) {
+        log.info("Buscando medallas por el ID del usuario: {}", usuarioId);
+
+        // Validar si el usuario existe
+        usuarioServicio.getUsuarioPorId(usuarioId);
+
+        return medallaDAO.buscarPorUsuarioId(usuarioId);
+    }
+
     /**
      * función para validar la data para poder crear una medalla
      * @param medallaDto: DTO de la medalla
@@ -35,6 +49,14 @@ public class MedallaServicioImpl implements MedallaServicio {
     private void validarDataParaCrear(MedallaDto medallaDto) {
         if(medallaDto.getNombre() == null || medallaDto.getNombre().trim().isEmpty()) {
             throw new IllegalArgumentException("El nombre del producto es obligatorio");
+        }
+
+        if(medallaDto.getCriterio() == null || medallaDto.getCriterio().trim().isEmpty()) {
+            throw new IllegalArgumentException("El criterio de aceptación para la obtención de la medalla es obligatorio");
+        }
+
+        if(medallaDto.getIcono() == null || medallaDto.getIcono().trim().isEmpty()) {
+            throw new IllegalArgumentException("La URL del ícono es obligatoria");
         }
 
     }

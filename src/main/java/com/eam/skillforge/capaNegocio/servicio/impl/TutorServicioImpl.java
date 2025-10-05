@@ -2,6 +2,7 @@ package com.eam.skillforge.capaNegocio.servicio.impl;
 
 import com.eam.skillforge.capaNegocio.dto.CreacionEvaluacionDto;
 import com.eam.skillforge.capaNegocio.dto.CursoDto;
+import com.eam.skillforge.capaNegocio.dto.InscripcionDto;
 import com.eam.skillforge.capaNegocio.dto.ModuloDto;
 import com.eam.skillforge.capaNegocio.dto.UsuarioDto;
 import com.eam.skillforge.capaNegocio.excepciones.UsuarioNoAutorizadoExcepcion;
@@ -9,14 +10,19 @@ import com.eam.skillforge.capaNegocio.servicio.CursoServicio;
 import com.eam.skillforge.capaNegocio.servicio.EvaluacionServicio;
 import com.eam.skillforge.capaNegocio.servicio.ModuloServicio;
 import com.eam.skillforge.capaNegocio.servicio.TutorServicio;
+import com.eam.skillforge.capaNegocio.servicio.UsuarioServicio;
 import com.eam.skillforge.capaPersistencia.dao.CursoDAO;
+import com.eam.skillforge.capaPersistencia.dao.ModuloDAO;
 import com.eam.skillforge.capaPersistencia.dao.TutorDAO;
+import com.eam.skillforge.capaPersistencia.entidad.Inscripcion;
 import com.eam.skillforge.capaPersistencia.entidad.Usuario;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -28,8 +34,10 @@ public class TutorServicioImpl implements TutorServicio {
 
     private final TutorDAO tutorDAO;
     private final CursoDAO cursoDAO;
+    private final ModuloDAO moduloDAO;
     private final CursoServicio cursoServicio;
     private final ModuloServicio moduloServicio;
+    private final UsuarioServicio usuarioServicio;
 
     @Override
     public List<CursoDto> getCursosPorTutorId(Long tutorId) {
@@ -102,7 +110,16 @@ public class TutorServicioImpl implements TutorServicio {
 
     @Override
     public ModuloDto actualizarModulo(Long moduloId, ModuloDto modulo) {
-        return null;
+        log.info("Actualiando módulo ID: {}", moduloId);
+
+        moduloServicio.getModuloPorId(moduloId);
+        validarDataModulo(modulo);
+
+        ModuloDto moduloActualizado = moduloDAO.actualizar(moduloId, modulo)
+                .orElseThrow(() -> new RuntimeException("Error al actualizar el módulo"));
+        log.info("Módulo actualizado exitosamente ID: {}", moduloId);
+
+        return moduloActualizado;
     }
 
     public boolean eliminarModuloPorId(Long id) {
@@ -121,4 +138,36 @@ public class TutorServicioImpl implements TutorServicio {
     public void crearEvaluacion(CreacionEvaluacionDto creacionEvaluacion) {
         tutorDAO.crearEvaluacion(creacionEvaluacion);
     }
+    @Override
+    public InscripcionDto asignarCurso(Long usuarioId, Long cursoId) {
+        log.info("Asignando curso al usuario con ID: {} : {}", usuarioId, cursoId);
+
+        usuarioServicio.buscarPorId(usuarioId);
+        cursoServicio.getCursoPorId(cursoId);
+
+        List<ModuloDto> modulos = moduloServicio.getModulosPorCursoId(cursoId);
+        List<InscripcionDto> inscripciones = new ArrayList<>();
+
+        for(ModuloDto modulo : modulos) {
+            InscripcionDto paraInscribir = new InscripcionDto(
+                    null,
+                    usuarioId,
+                    cursoId,
+                    modulo.getId(),
+                    0.0f,
+                    LocalDateTime.now(),
+                    LocalDateTime.now(),
+                    1L
+            );
+
+            InscripcionDto inscrito = tutorDAO.inscribir(paraInscribir);
+            inscripciones.add(inscrito);
+            log.info("Inscrito {}", inscrito);
+            log.info("Asignación de curso exitosa con ID: {} : {} : {}", usuarioId, cursoId, inscrito.getId());
+        }
+
+
+        return inscripciones.getLast();
+    }
+
 }

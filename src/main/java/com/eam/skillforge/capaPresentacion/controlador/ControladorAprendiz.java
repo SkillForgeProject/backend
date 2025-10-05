@@ -74,4 +74,18 @@ public class ControladorAprendiz {
         return ResponseEntity.ok(cantidad);
 
     }
+
+    @GetMapping("{usuarioId}/cursos-completados")
+    @Operation(summary = "Obtiene los cursos que un aprendiz ha completado")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Obtiene los cursos completados"),
+            @ApiResponse(responseCode = "500", description = "Error al obtener las certificaciones"),
+            @ApiResponse(responseCode = "404", description = "No se encontró el recurso")
+    })
+    public ResponseEntity<List<CursoDto>> getCursosCompletadosPorIdUsuario(@PathVariable Long usuarioId) {
+        log.info("GET aprendiz/{}/cursos - Obteniendo cursos completados", usuarioId);
+        List<CursoDto> cursos = aprendizServicio.getCursosCompletadosPorIdUsuario(usuarioId);
+        log.info("Se encontraron {} cursos", cursos.size());
+        return ResponseEntity.ok(cursos);
+    }
 }

@@ -42,4 +42,8 @@ public class AprendizDAO {
     public Integer getCantidadCertificaciones(Long usuarioId) {
         return aprendizRepositorio.getCantidadCertificaciones(usuarioId);
     }
+
+    public List<CursoDto> getCursosCompletadosPorIdUsuario(Long usuarioId) {
+        return aprendizRepositorio.getCursosCompletadosPorIdUsuario(usuarioId);
+    }
 }

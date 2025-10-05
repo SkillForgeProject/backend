@@ -20,7 +20,11 @@ public class Inscripcion {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "cursoId", referencedColumnName = "id")
+    @JoinColumn(name = "usuarioId")
+    private Usuario usuario;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "cursoId")
     private Curso curso;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -31,12 +35,11 @@ public class Inscripcion {
 
     private LocalDateTime fechaInscripcion;
 
+    private LocalDateTime fechaUltimoEstado;
+
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "estado")
     private Estado estado;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "usuarioId")
-    private Usuario usuario;
 
 }

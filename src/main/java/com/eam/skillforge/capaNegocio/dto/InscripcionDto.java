@@ -2,13 +2,20 @@ package com.eam.skillforge.capaNegocio.dto;
 
 import com.eam.skillforge.capaPersistencia.entidad.Estado;
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Schema(
         description = "Información de la inscripción de un usuario en un curso"
 )
 
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class InscripcionDto {
 
     @Schema(
@@ -16,69 +23,39 @@ public class InscripcionDto {
             example = "8001",
             accessMode = Schema.AccessMode.READ_ONLY
     )
-    private int id;
+    private Long id;
+
+    private Long usuarioId;
 
     @Schema(
             description = "Identificador del curso inscrito",
             example = "2001",
             required = true
     )
-    private int id_curso;
+    private Long cursoId;
+
+    private Long moduloId;
 
     @Schema(
             description = "Progreso del usuario en el curso expresado como porcentaje",
             example = "75.5",
             required = true
     )
-    private float progreso;
+    private Float progreso;
 
     @Schema(
             description = "Fecha en que se realizó la inscripción",
             example = "2025-09-13",
             required = true
     )
-    private LocalDate fechaInscripcion;
+    private LocalDateTime fechaInscripcion;
+
+    private LocalDateTime fechaUltimoEstado;
 
     @Schema(
             description = "Estado de la inscripción (noInscrito=1, inscrito=2, enProgreso=3, completado=4)",
             example = "2",
             required = true
     )
-    private Estado id_estado;
-
-
-    public int getId() {
-        return id;
-    }
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public int getId_curso() {
-        return id_curso;
-    }
-    public void setId_curso(int id_curso) {
-        this.id_curso = id_curso;
-    }
-
-    public float getProgreso() {
-        return progreso;
-    }
-    public void setProgreso(float progreso) {
-        this.progreso = progreso;
-    }
-
-    public LocalDate getFechaInscripcion() {
-        return fechaInscripcion;
-    }
-    public void setFechaInscripcion(LocalDate fechaInscripcion) {
-        this.fechaInscripcion = fechaInscripcion;
-    }
-
-    public Estado getId_estado() {
-        return id_estado;
-    }
-    public void setId_estado(Estado id_estado) {
-        this.id_estado = id_estado;
-    }
+    private Long estado;
 }

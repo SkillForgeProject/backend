@@ -26,4 +26,18 @@ public interface CursoRepositorio extends JpaRepository<Curso, Long> {
             LIMIT 4
             """, nativeQuery = true)
     List<Object[]> findTopCursosMejoresPuntuados();
+
+    @Query(value = """
+            SELECT 
+                ( (SELECT COUNT(id) FROM usuario WHERE id_rol = 3) - COUNT(INS.usuarioId) ) AS diferenciaUsuarios,
+                CURS.id AS cursoId,
+                CURS.titulo
+            FROM inscripcion INS
+            INNER JOIN curso CURS ON INS.cursoId = CURS.id
+            WHERE INS.estado = 3
+            GROUP BY CURS.id, CURS.titulo
+            ORDER BY diferenciaUsuarios ASC
+            LIMIT 6
+            """, nativeQuery = true)
+    List<Object[]> findCursosMasTomados();
 }

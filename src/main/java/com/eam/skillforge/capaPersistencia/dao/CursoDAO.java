@@ -1,6 +1,7 @@
 package com.eam.skillforge.capaPersistencia.dao;
 
 import com.eam.skillforge.capaNegocio.dto.CursoDto;
+import com.eam.skillforge.capaNegocio.dto.CursoDiferenciaUsuariosDto;
 import com.eam.skillforge.capaNegocio.dto.TopCursoDto;
 import com.eam.skillforge.capaPersistencia.entidad.Curso;
 import com.eam.skillforge.capaPersistencia.mapper.CursoMapper;
@@ -56,6 +57,18 @@ public class CursoDAO {
                         ((Number) resultado[0]).longValue(),  // id
                         (String) resultado[1],                // titulo
                         ((Number) resultado[2]).doubleValue() // puntuacion
+                ))
+                .collect(Collectors.toList());
+    }
+
+    public List<CursoDiferenciaUsuariosDto> getCursosMasTomados() {
+        List<Object[]> resultados = cursoRepositorio.findCursosMasTomados();
+        
+        return resultados.stream()
+                .map(resultado -> new CursoDiferenciaUsuariosDto(
+                        ((Number) resultado[0]).intValue(),   // diferenciaUsuarios
+                        ((Number) resultado[1]).longValue(),  // cursoId
+                        (String) resultado[2]                 // titulo
                 ))
                 .collect(Collectors.toList());
     }

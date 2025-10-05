@@ -1,6 +1,7 @@
 package com.eam.skillforge.capaNegocio.servicio.impl;
 
 import com.eam.skillforge.capaNegocio.dto.CursoDto;
+import com.eam.skillforge.capaNegocio.dto.CursoDiferenciaUsuariosDto;
 import com.eam.skillforge.capaNegocio.dto.TopCursoDto;
 import com.eam.skillforge.capaNegocio.servicio.CursoServicio;
 import com.eam.skillforge.capaPersistencia.dao.CursoDAO;
@@ -61,6 +62,17 @@ public class CursoServicioImpl implements CursoServicio {
         
         log.info("Se encontraron {} cursos mejor puntuados", topCursos.size());
         return topCursos;
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<CursoDiferenciaUsuariosDto> getCursosMasTomados() {
+        log.debug("Obteniendo los 6 cursos con menor diferencia de usuarios");
+        
+        List<CursoDiferenciaUsuariosDto> cursosConDiferencia = cursoDAO.getCursosMasTomados();
+        
+        log.info("Se encontraron {} cursos con diferencia de usuarios", cursosConDiferencia.size());
+        return cursosConDiferencia;
     }
 
     private void validarDataCurso(CursoDto curso) {

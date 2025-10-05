@@ -1,5 +1,6 @@
 package com.eam.skillforge.capaPresentacion.controlador;
 
+import com.eam.skillforge.capaNegocio.dto.CursoDiferenciaUsuariosDto;
 import com.eam.skillforge.capaNegocio.dto.TopCursoDto;
 import com.eam.skillforge.capaNegocio.servicio.CursoServicio;
 import com.eam.skillforge.capaPersistencia.entidad.Curso;
@@ -178,6 +179,26 @@ public class ControladorCurso {
         }
         
         return ResponseEntity.ok(topCursos);
+    }
+
+    @GetMapping("/cursos-mas-tomados")
+    @Operation(summary = "Obtener los 6 cursos más tomados")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Lista de cursos con menor diferencia obtenida exitosamente"),
+            @ApiResponse(responseCode = "404", description = "No se encontraron cursos con inscripciones"),
+            @ApiResponse(responseCode = "500", description = "Error interno del servidor")
+    })
+    public ResponseEntity<List<CursoDiferenciaUsuariosDto>> getCursosMasTomados() {
+        log.info("GET /curso/menor-diferencia-usuarios - Obteniendo cursos con menor diferencia de usuarios");
+        
+        List<CursoDiferenciaUsuariosDto> cursosConDiferencia = cursoServicio.getCursosMasTomados();
+        log.info("Se obtuvieron {} cursos con diferencia de usuarios", cursosConDiferencia.size());
+        
+        if (cursosConDiferencia.isEmpty()) {
+            throw new com.eam.skillforge.capaNegocio.excepciones.CursoNoEncontradoExcepcion("No se encontraron cursos con inscripciones activas");
+        }
+        
+        return ResponseEntity.ok(cursosConDiferencia);
     }
 
 

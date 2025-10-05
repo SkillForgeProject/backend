@@ -1,6 +1,7 @@
 package com.eam.skillforge.capaNegocio.servicio;
 
 import com.eam.skillforge.capaNegocio.dto.CursoDto;
+import com.eam.skillforge.capaNegocio.dto.CursoDiferenciaUsuariosDto;
 import com.eam.skillforge.capaNegocio.dto.TopCursoDto;
 
 import java.util.List;
@@ -13,4 +14,6 @@ public interface CursoServicio {
     CursoDto actualizarCurso(Long id, CursoDto curso);
 
     List<TopCursoDto> getTopCursosMejoresPuntuados();
+
+    List<CursoDiferenciaUsuariosDto> getCursosMasTomados();
 }

@@ -126,3 +126,12 @@ CREATE TABLE Badge (
     id_usuario INT,
     FOREIGN KEY (id_usuario) REFERENCES Usuario(id)
 );
+
+CREATE TABLE cursos_puntuacion (
+ id INTEGER PRIMARY KEY  AUTO_INCREMENT,
+ cursoId INTEGER,
+ usuarioId INTEGER,
+ puntuacion FLOAT,
+ FOREIGN KEY (cursoId) REFERENCES Curso(id),
+ FOREIGN KEY (usuarioId) REFERENCES Usuario(id)
+);

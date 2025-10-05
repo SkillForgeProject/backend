@@ -72,3 +72,14 @@ VALUES
 ('Aprendiz Activo', 'Completó el 50% de un curso', 'icon_medalla1.png', 3),
 ('Colaborador', 'Participó en varias evaluaciones', 'icon_medalla2.png', 4),
 ('Inicio Prometedor', 'Comenzó su primer curso', 'icon_medalla3.png', 6);
+
+INSERT INTO cursos_puntuacion (cursoId, usuarioId, puntuacion)
+VALUES
+(1, 3, 85.5),
+(1, 6, 72.0),
+(2, 4, 90.0),
+(2, 3, 77.5),
+(2, 5, 60.0),
+(3, 5, 88.0),
+(3, 4, 70.5),
+(3, 6, 65.0);

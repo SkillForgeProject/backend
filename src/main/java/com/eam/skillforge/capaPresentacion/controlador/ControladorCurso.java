@@ -1,6 +1,7 @@
 package com.eam.skillforge.capaPresentacion.controlador;
 
 import com.eam.skillforge.capaNegocio.dto.CursoDiferenciaUsuariosDto;
+import com.eam.skillforge.capaNegocio.dto.CursoDto;
 import com.eam.skillforge.capaNegocio.dto.TopCursoDto;
 import com.eam.skillforge.capaNegocio.servicio.CursoServicio;
 import com.eam.skillforge.capaPersistencia.entidad.Curso;
@@ -12,6 +13,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -199,6 +201,19 @@ public class ControladorCurso {
         }
         
         return ResponseEntity.ok(cursosConDiferencia);
+    }
+
+    @GetMapping("/activos")
+    @Operation(summary = "Obtiene todos los cursos que se encuentran activos")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Se obtuvo todos los cursos activos"),
+            @ApiResponse(responseCode = "500", description = "Error al obtener los cursos activos"),
+            @ApiResponse(responseCode = "404", description = "No se encontraron los cursos activos")
+    })
+    public ResponseEntity<List<CursoDto>> getCursosActivos(){
+        log.info("GET curso/activos - Obteniendo todos cursos activos");
+        List<CursoDto> cursos = cursoServicio.getCursosActivos();
+        return new ResponseEntity<>(cursos, HttpStatus.OK);
     }
 
 

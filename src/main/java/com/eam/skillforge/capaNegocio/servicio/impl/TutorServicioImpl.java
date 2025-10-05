@@ -42,7 +42,7 @@ public class TutorServicioImpl implements TutorServicio {
     public Optional<UsuarioDto> getTutorPorId(Long tutorId) {
         log.debug("Buscando tutor por ID: {}", tutorId);
 
-        if(tutorId != 2) {
+        if (tutorId != 2) {
             throw new UsuarioNoAutorizadoExcepcion("Este usuario no tiene permisos para utilizar este endpoint");
         }
 
@@ -55,7 +55,7 @@ public class TutorServicioImpl implements TutorServicio {
         cursoServicio.getCursoPorId(cursoId);
 
         boolean eliminado = cursoDAO.eliminarPorId(cursoId);
-        if(!eliminado) {
+        if (!eliminado) {
             throw new RuntimeException("Error al eliminar curso por ID: " + cursoId);
         }
 
@@ -103,13 +103,17 @@ public class TutorServicioImpl implements TutorServicio {
         return null;
     }
 
+    public boolean eliminarModuloPorId(Long id) {
+        log.info("Iniciando eliminación de módulo con ID: {}", id);
+
+        try {
+            boolean resultado = moduloServicio.eliminarModuloPorId(id);
+            log.info("Módulo con ID {} eliminado exitosamente", id);
+            return resultado;
+        } catch (Exception e) {
+            log.error("Error al eliminar módulo con ID {}: {}", id, e.getMessage());
+            throw e;
+        }
+    }
+
 }
-
-
-
-
-
-
-
-
-

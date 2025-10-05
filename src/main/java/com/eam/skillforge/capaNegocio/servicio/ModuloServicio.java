@@ -4,4 +4,6 @@ import com.eam.skillforge.capaNegocio.dto.ModuloDto;
 
 public interface ModuloServicio {
     ModuloDto guardarModulo(ModuloDto modulo);
+
+    boolean eliminarModuloPorId(Long id);
 }

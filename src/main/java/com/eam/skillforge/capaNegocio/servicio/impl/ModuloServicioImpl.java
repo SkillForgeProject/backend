@@ -22,4 +22,17 @@ public class ModuloServicioImpl implements ModuloServicio {
 
         return moduloCreado;
     }
+
+    public boolean eliminarModuloPorId(Long id) {
+        log.info("Iniciando eliminación de módulo con ID: {}", id);
+        
+        try {
+            boolean resultado = moduloDAO.eliminarModuloPorId(id);
+            log.info("Módulo con ID {} eliminado exitosamente", id);
+            return resultado;
+        } catch (Exception e) {
+            log.error("Error al eliminar módulo con ID {}: {}", id, e.getMessage());
+            throw e;
+        }
+    }
 }

@@ -1,12 +1,16 @@
 package com.eam.skillforge.capaNegocio.servicio.impl;
 
+import com.eam.skillforge.capaNegocio.dto.CursoDto;
 import com.eam.skillforge.capaNegocio.dto.UsuarioDto;
 import com.eam.skillforge.capaNegocio.servicio.AprendizServicio;
 import com.eam.skillforge.capaPersistencia.dao.AprendizDAO;
+import com.eam.skillforge.capaPersistencia.entidad.Curso;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 @Transactional
@@ -35,5 +39,19 @@ public class AprendizServicioImpl implements AprendizServicio {
     @Transactional(readOnly = true)
     public Double getProgresoCurso(int usuarioId, int cursoId) {
         return aprendizDAO.obtenerProgresoCurso(usuarioId, cursoId);
+    }
+
+    @Override
+    @Transactional
+    public List<CursoDto> getCursosPorIdUsuario(Long idUsuario) {
+        log.debug("Buscando cursos asociados al usuario con ID: {}", idUsuario);
+
+        List<CursoDto> cursos = aprendizDAO.getCursosPorIdUsuario(idUsuario);
+        if (cursos.isEmpty()) {
+            log.warn("No se encontraron cursos para el usuario con ID: {}", idUsuario);
+        } else {
+            log.info("Se encontraron {} cursos para el usuario con ID: {}", cursos.size(), idUsuario);
+        }
+        return cursos;
     }
 }

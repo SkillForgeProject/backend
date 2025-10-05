@@ -3,6 +3,7 @@ package com.eam.skillforge.capaPersistencia.entidad;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import java.util.List;
 
 
 @Entity
@@ -26,4 +27,5 @@ public class Usuario {
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_departamento")
     private Departamento departamento;
+
 }

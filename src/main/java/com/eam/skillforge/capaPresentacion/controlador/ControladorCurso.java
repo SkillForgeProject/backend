@@ -220,7 +220,7 @@ public class ControladorCurso {
         return new ResponseEntity<>(cursos, HttpStatus.OK);
     }
 
-    @GetMapping("/por-inscripcion/{cursoId}")
+    @GetMapping("/estudiantePorCurso/{cursoId}")
     @Operation(
         summary = "Obtener cursos por inscripción",
         description = "Obtiene la información de cursos basada en las inscripciones para un curso específico"
@@ -230,7 +230,7 @@ public class ControladorCurso {
         @ApiResponse(responseCode = "404", description = "No se encontraron cursos para el ID especificado"),
         @ApiResponse(responseCode = "500", description = "Error interno del servidor")
     })
-    public ResponseEntity<List<UsuarioDto>> getCursosPorInscripcion(
+    public ResponseEntity<List<UsuarioDto>> getEstudiantePorIdCurso(
             @Parameter(description = "ID del curso para buscar inscripciones", required = true)
             @PathVariable Long cursoId) {
 

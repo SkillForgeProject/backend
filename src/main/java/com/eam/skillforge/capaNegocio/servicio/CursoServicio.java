@@ -3,6 +3,7 @@ package com.eam.skillforge.capaNegocio.servicio;
 import com.eam.skillforge.capaNegocio.dto.CursoDto;
 import com.eam.skillforge.capaNegocio.dto.CursoDiferenciaUsuariosDto;
 import com.eam.skillforge.capaNegocio.dto.TopCursoDto;
+import com.eam.skillforge.capaNegocio.dto.UsuarioDto;
 
 import java.util.List;
 
@@ -18,4 +19,6 @@ public interface CursoServicio {
     List<CursoDiferenciaUsuariosDto> getCursosMasTomados();
 
     List<CursoDto> getCursosActivos();
+
+    List<UsuarioDto> getCursosPorInscripcion(Long cursoId);
 }

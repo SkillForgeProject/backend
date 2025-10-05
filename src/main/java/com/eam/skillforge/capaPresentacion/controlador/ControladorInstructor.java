@@ -1,5 +1,6 @@
 package com.eam.skillforge.capaPresentacion.controlador;
 
+import com.eam.skillforge.capaNegocio.dto.CreacionEvaluacionDto;
 import com.eam.skillforge.capaNegocio.dto.CursoDto;
 import com.eam.skillforge.capaNegocio.dto.InscripcionDto;
 import com.eam.skillforge.capaNegocio.dto.UsuarioDto;
@@ -196,6 +197,18 @@ public class ControladorInstructor {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body("Error al eliminar el módulo");
         }
+    }
+    @PostMapping("/evaluacion")
+    @Operation(
+            summary = "Insertar evaluación"
+    )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Evaluación creada"),
+            @ApiResponse(responseCode = "500", description = "Error interno del servidor")
+    })
+    public ResponseEntity postEvaluacion(@RequestBody CreacionEvaluacionDto creacionEvaluacion) {
+        tutorServicio.crearEvaluacion(creacionEvaluacion);
+        return new ResponseEntity(HttpStatus.OK);
     }
 
 

@@ -1,12 +1,18 @@
 package com.eam.skillforge.capaPersistencia.dao;
 
+import com.eam.skillforge.capaNegocio.dto.CreacionEvaluacionDto;
 import com.eam.skillforge.capaNegocio.dto.CursoDto;
 import com.eam.skillforge.capaNegocio.dto.InscripcionDto;
+import com.eam.skillforge.capaNegocio.dto.OpcionPreguntaDto;
 import com.eam.skillforge.capaNegocio.dto.UsuarioDto;
+import com.eam.skillforge.capaNegocio.mapper.PreguntaMapper;
+import com.eam.skillforge.capaNegocio.servicio.EvaluacionServicio;
 import com.eam.skillforge.capaPersistencia.entidad.Curso;
 import com.eam.skillforge.capaPersistencia.entidad.Inscripcion;
 import com.eam.skillforge.capaPersistencia.mapper.CursoMapper;
 import com.eam.skillforge.capaPersistencia.mapper.InscripcionMapper;
+import com.eam.skillforge.capaPersistencia.mapper.EvaluacionMapper;
+import com.eam.skillforge.capaPersistencia.mapper.OpcionPreguntaMapper;
 import com.eam.skillforge.capaPersistencia.mapper.UsuarioMapper;
 import com.eam.skillforge.capaPersistencia.repositorio.CursoRepositorio;
 import com.eam.skillforge.capaPersistencia.repositorio.InscripcionRepositorio;
@@ -26,6 +32,7 @@ public class TutorDAO {
     private final UsuarioMapper tutorMapper;
     private final CursoMapper cursoMapper;
     private final InscripcionMapper inscripcionMapper;
+    private final EvaluacionServicio evaluacionServicio;
 
     public List<CursoDto> getCursosPorTutorId(Long tutorId) {
         List<Curso> entidades = cursoRepositorio.findByTutorId(tutorId);
@@ -41,6 +48,10 @@ public class TutorDAO {
         Curso entidad = cursoMapper.toEntidad(curso);
         Curso guardada = cursoRepositorio.save(entidad);
         return cursoMapper.toDTO(guardada);
+    }
+
+    public void crearEvaluacion(CreacionEvaluacionDto creacionEvaluacion) {
+        evaluacionServicio.crearEvaluacion(creacionEvaluacion);
     }
 
     public InscripcionDto inscribir(InscripcionDto inscripcion) {

@@ -3,6 +3,7 @@ package com.eam.skillforge.capaNegocio.servicio;
 import java.util.List;
 import java.util.Optional;
 
+import com.eam.skillforge.capaNegocio.dto.CreacionEvaluacionDto;
 import com.eam.skillforge.capaNegocio.dto.CursoDto;
 import com.eam.skillforge.capaNegocio.dto.InscripcionDto;
 import com.eam.skillforge.capaNegocio.dto.ModuloDto;
@@ -27,4 +28,6 @@ public interface TutorServicio {
     boolean eliminarModuloPorId(Long id);
 
     InscripcionDto asignarCurso(Long usuarioId, Long cursoId);
+
+    void crearEvaluacion(CreacionEvaluacionDto creacionEvaluacion);
 }

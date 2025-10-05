@@ -1,9 +1,11 @@
 package com.eam.skillforge.capaNegocio.servicio.impl;
 
 import com.eam.skillforge.capaNegocio.dto.CursoDto;
+import com.eam.skillforge.capaNegocio.dto.ModuloDto;
 import com.eam.skillforge.capaNegocio.dto.UsuarioDto;
 import com.eam.skillforge.capaNegocio.excepciones.UsuarioNoAutorizadoExcepcion;
 import com.eam.skillforge.capaNegocio.servicio.CursoServicio;
+import com.eam.skillforge.capaNegocio.servicio.ModuloServicio;
 import com.eam.skillforge.capaNegocio.servicio.TutorServicio;
 import com.eam.skillforge.capaPersistencia.dao.CursoDAO;
 import com.eam.skillforge.capaPersistencia.dao.TutorDAO;
@@ -25,6 +27,7 @@ public class TutorServicioImpl implements TutorServicio {
     private final TutorDAO tutorDAO;
     private final CursoDAO cursoDAO;
     private final CursoServicio cursoServicio;
+    private final ModuloServicio moduloServicio;
 
     @Override
     public List<CursoDto> getCursosPorTutorId(Long tutorId) {
@@ -80,6 +83,24 @@ public class TutorServicioImpl implements TutorServicio {
         CursoDto cursoActualizado = cursoServicio.actualizarCurso(cursoId, curso);
         log.info("Curso actualizado exitosamente ID: {}", cursoId);
         return cursoActualizado;
+    }
+
+    @Override
+    public ModuloDto crearModulo(ModuloDto modulo) {
+        validarDataModulo(modulo);
+
+        ModuloDto moduloCreado = moduloServicio.guardarModulo(modulo);
+        log.info("Módulo creado satisfactoriamente con ID: {}", moduloCreado.getId());
+        return moduloCreado;
+    }
+
+    private void validarDataModulo(ModuloDto modulo) {
+        //TODO: implementar validaciones
+    }
+
+    @Override
+    public ModuloDto actualizarModulo(Long moduloId, ModuloDto modulo) {
+        return null;
     }
 
 }

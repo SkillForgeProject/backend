@@ -1,5 +1,6 @@
 package com.eam.skillforge.capaPersistencia.repositorio;
 
+import com.eam.skillforge.capaNegocio.dto.CursoDto;
 import com.eam.skillforge.capaPersistencia.entidad.Curso;
 import com.eam.skillforge.capaPersistencia.entidad.Usuario;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -41,4 +42,12 @@ public interface AprendizRepositorio extends JpaRepository<Usuario, Long> {
     @Query("SELECT COUNT(c) FROM Certificado c WHERE c.usuario.id = :usuarioId")
     Integer getCantidadCertificaciones(@Param("usuarioId") Long usuarioId);
 
+
+    @Query(value = """
+            SELECT DISTINCT i.curso
+            FROM Inscripcion i
+            WHERE i.estado.id = 4
+            AND i.usuario.id = :usuarioId
+            """)
+    List<CursoDto> getCursosCompletadosPorIdUsuario(@Param("usuarioId") Long usuarioId);
 }

@@ -1,22 +1,30 @@
 package com.eam.skillforge.capaPresentacion.controlador;
 
+import com.eam.skillforge.capaNegocio.dto.CursoDiferenciaUsuariosDto;
+import com.eam.skillforge.capaNegocio.dto.TopCursoDto;
+import com.eam.skillforge.capaNegocio.servicio.CursoServicio;
 import com.eam.skillforge.capaPersistencia.entidad.Curso;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/curso")
+@RequiredArgsConstructor
+@Slf4j
+@Tag(name = "Curso")
 public class ControladorCurso {
 
-    /*private final ServicioCurso servicio;
-    public ControladorCertificado(ServicioCurso servicio) {
-        this.servicio = servicio;
-    }*/
+    private final CursoServicio cursoServicio;
 
 
     @Operation(
@@ -151,6 +159,46 @@ public class ControladorCurso {
             @RequestParam Integer cursoId,
             @RequestBody Curso curso) {
         return null;
+    }
+
+    @GetMapping("/top-mejores-puntuados")
+    @Operation(summary = "Obtener los 3 cursos mejor puntuados")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Lista de top cursos obtenida exitosamente"),
+            @ApiResponse(responseCode = "404", description = "No se encontraron cursos puntuados"),
+            @ApiResponse(responseCode = "500", description = "Error interno del servidor")
+    })
+    public ResponseEntity<List<TopCursoDto>> getTopCursosMejoresPuntuados() {
+        log.info("GET /curso/top-mejores-puntuados - Obteniendo los 3 cursos mejor puntuados");
+        
+        List<TopCursoDto> topCursos = cursoServicio.getTopCursosMejoresPuntuados();
+        log.info("Se obtuvieron {} cursos mejor puntuados", topCursos.size());
+        
+        if (topCursos.isEmpty()) {
+            throw new com.eam.skillforge.capaNegocio.excepciones.CursoNoEncontradoExcepcion("No se encontraron cursos con puntuaciones");
+        }
+        
+        return ResponseEntity.ok(topCursos);
+    }
+
+    @GetMapping("/cursos-mas-tomados")
+    @Operation(summary = "Obtener los 6 cursos más tomados")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Lista de cursos con menor diferencia obtenida exitosamente"),
+            @ApiResponse(responseCode = "404", description = "No se encontraron cursos con inscripciones"),
+            @ApiResponse(responseCode = "500", description = "Error interno del servidor")
+    })
+    public ResponseEntity<List<CursoDiferenciaUsuariosDto>> getCursosMasTomados() {
+        log.info("GET /curso/menor-diferencia-usuarios - Obteniendo cursos con menor diferencia de usuarios");
+        
+        List<CursoDiferenciaUsuariosDto> cursosConDiferencia = cursoServicio.getCursosMasTomados();
+        log.info("Se obtuvieron {} cursos con diferencia de usuarios", cursosConDiferencia.size());
+        
+        if (cursosConDiferencia.isEmpty()) {
+            throw new com.eam.skillforge.capaNegocio.excepciones.CursoNoEncontradoExcepcion("No se encontraron cursos con inscripciones activas");
+        }
+        
+        return ResponseEntity.ok(cursosConDiferencia);
     }
 
 

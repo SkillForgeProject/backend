@@ -1,6 +1,7 @@
 package com.eam.skillforge.capaNegocio.excepciones;
 
 import java.sql.SQLException;
+import java.time.LocalDateTime;
 
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
@@ -144,14 +145,17 @@ public class ManejoGlobalExcepcion {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
     }
 
+    /**
+     * Maneja excepciones cuando no se encuentra un módulo
+     */
     @ExceptionHandler(ModuloNoEncontradoExcepcion.class)
-    public ResponseEntity<ErrorResponse> manejarModuloNoEncontrado(ModuloNoEncontradoExcepcion ex) {
+    public ResponseEntity<ErrorResponse<String>> manejarModuloNoEncontrado(ModuloNoEncontradoExcepcion ex) {
         log.warn("Módulo no encontrado: {}", ex.getMessage());
 
         ErrorResponse<String> errorResponse = new ErrorResponse<>(
-                "Módulo no encontrado",
-                "No se encontró un módulo con el ID especificado",
-                HttpStatus.NOT_FOUND.value()
+            ex.getMessage(),
+            "Módulo No Encontrado",
+            HttpStatus.NOT_FOUND.value()
         );
         
         return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);

@@ -1,13 +1,16 @@
 package com.eam.skillforge.capaPersistencia.mapper;
 
+import com.eam.skillforge.capaNegocio.dto.CursoDto;
 import com.eam.skillforge.capaNegocio.dto.UsuarioDto;
+import com.eam.skillforge.capaPersistencia.entidad.Curso;
 import com.eam.skillforge.capaPersistencia.entidad.Departamento;
 import com.eam.skillforge.capaPersistencia.entidad.Usuario;
 import org.mapstruct.*;
 
+import java.util.List;
+
 @Mapper(componentModel = "spring")
 public interface UsuarioMapper {
-
     // -------- ENTIDAD -> DTO ----------
     @Mapping(target = "id", source = "id") // Long -> int (MapStruct hace cast solo)
     @Mapping(target = "contrasena", ignore = true) // no existe en la entidad
@@ -18,4 +21,9 @@ public interface UsuarioMapper {
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "idRol", source = "id_rol")
     Usuario toEntidad(UsuarioDto dto);
+
+    // -------- LISTAS ----------
+    List<UsuarioDto> toDTOList(List<Usuario> usuarios);
+    
+    List<Usuario> toEntidadList(List<UsuarioDto> usuariosDto);
 }

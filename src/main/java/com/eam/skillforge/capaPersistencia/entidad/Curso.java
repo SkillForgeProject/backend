@@ -21,8 +21,7 @@ public class Curso {
 
     private String descripcion;
 
-    @Column(name = "duracionEstim")
-    private Long duracionEstimada;
+    private Long duracionEstim;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "nivel", nullable = false)

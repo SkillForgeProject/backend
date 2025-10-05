@@ -31,7 +31,9 @@ CREATE TABLE Curso (
   titulo varchar(255) UNIQUE,
   descripcion varchar(255),
   duracionEstim integer,
-  nivel int
+  nivel int,
+  id_tutor int,
+  FOREIGN KEY (id_tutor) REFERENCES usuario(id)
 );
 
 CREATE TABLE categoria (
@@ -134,4 +136,19 @@ CREATE TABLE cursos_puntuacion (
  puntuacion FLOAT,
  FOREIGN KEY (cursoId) REFERENCES Curso(id),
  FOREIGN KEY (usuarioId) REFERENCES Usuario(id)
+);
+
+CREATE TABLE Pregunta (
+	id INT PRIMARY KEY AUTO_INCREMENT,
+	id_evaluacion INT,
+	pregunta VARCHAR(255),
+	FOREIGN KEY (id_evaluacion) REFERENCES evaluacion(id)
+);
+
+CREATE TABLE Opcion_Pregunta (
+	id INT PRIMARY KEY AUTO_INCREMENT,
+	id_pregunta INT,
+	opcion VARCHAR(255),
+	esCorrecto BOOLEAN,
+	FOREIGN KEY (id_pregunta) REFERENCES Pregunta(id)
 );

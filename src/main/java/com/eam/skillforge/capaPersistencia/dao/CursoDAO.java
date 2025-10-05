@@ -72,4 +72,11 @@ public class CursoDAO {
                 ))
                 .collect(Collectors.toList());
     }
+
+    public List<CursoDto> getCursosActivos(){
+        List<Curso> cursosActivos = cursoRepositorio.getCursosActivos();
+
+        return cursoMapper.toDTOList(cursosActivos);
+    }
+
 }

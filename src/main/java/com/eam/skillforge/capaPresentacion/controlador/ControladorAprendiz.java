@@ -59,4 +59,6 @@ public class ControladorAprendiz {
         List<CursoDto> cursos = aprendizServicio.getCursosPorIdUsuario(usuarioId);
         return new ResponseEntity<>(cursos, HttpStatus.OK);
     }
+
+
 }

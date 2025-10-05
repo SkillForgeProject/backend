@@ -16,4 +16,6 @@ public interface CursoServicio {
     List<TopCursoDto> getTopCursosMejoresPuntuados();
 
     List<CursoDiferenciaUsuariosDto> getCursosMasTomados();
+
+    List<CursoDto> getCursosActivos();
 }

@@ -78,4 +78,15 @@ public class CursoServicioImpl implements CursoServicio {
     private void validarDataCurso(CursoDto curso) {
 
     }
+
+    @Override
+    @Transactional
+    public List<CursoDto> getCursosActivos(){
+        log.debug("Obteniendo los cursos activos");
+
+        List<CursoDto> CursosActivos = cursoDAO.getCursosActivos();
+
+        log.info("Se encontraron los cursos activos");
+        return CursosActivos;
+    }
 }

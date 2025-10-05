@@ -8,6 +8,7 @@ import com.eam.skillforge.capaNegocio.servicio.CursoServicio;
 import com.eam.skillforge.capaNegocio.servicio.ModuloServicio;
 import com.eam.skillforge.capaNegocio.servicio.TutorServicio;
 import com.eam.skillforge.capaPersistencia.dao.CursoDAO;
+import com.eam.skillforge.capaPersistencia.dao.ModuloDAO;
 import com.eam.skillforge.capaPersistencia.dao.TutorDAO;
 import com.eam.skillforge.capaPersistencia.entidad.Usuario;
 import lombok.RequiredArgsConstructor;
@@ -26,6 +27,7 @@ public class TutorServicioImpl implements TutorServicio {
 
     private final TutorDAO tutorDAO;
     private final CursoDAO cursoDAO;
+    private final ModuloDAO moduloDAO;
     private final CursoServicio cursoServicio;
     private final ModuloServicio moduloServicio;
 
@@ -100,7 +102,16 @@ public class TutorServicioImpl implements TutorServicio {
 
     @Override
     public ModuloDto actualizarModulo(Long moduloId, ModuloDto modulo) {
-        return null;
+        log.info("Actualiando módulo ID: {}", moduloId);
+
+        moduloServicio.getModuloPorId(moduloId);
+        validarDataModulo(modulo);
+
+        ModuloDto moduloActualizado = moduloDAO.actualizar(moduloId, modulo)
+                .orElseThrow(() -> new RuntimeException("Error al actualizar el módulo"));
+        log.info("Módulo actualizado exitosamente ID: {}", moduloId);
+
+        return moduloActualizado;
     }
 
     public boolean eliminarModuloPorId(Long id) {

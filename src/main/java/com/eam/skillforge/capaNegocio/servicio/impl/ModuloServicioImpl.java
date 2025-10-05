@@ -35,4 +35,14 @@ public class ModuloServicioImpl implements ModuloServicio {
             throw e;
         }
     }
+
+    @Override
+    public ModuloDto getModuloPorId(Long id) {
+        log.debug("Buscando módulo por ID: {}", id);
+        return moduloDAO.buscarPorId(id)
+                .orElseThrow(() -> {
+                    log.warn("Módulo no encontrado con ID: {}", id);
+                    return new RuntimeException("Módulo no encontrado con ID: " + id);
+                });
+    }
 }

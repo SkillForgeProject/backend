@@ -22,6 +22,12 @@ public interface ModuloMapper {
     @Mapping(target = "recurso", source = "recursoId", qualifiedByName = "crearEntidadRecursoDesdeId")
     Modulo toEntidad(ModuloDto dto);
 
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "curso", source = "cursoId", qualifiedByName = "crearEntidadCursoDesdeId")
+    @Mapping(target = "recurso", source = "recursoId", qualifiedByName = "crearEntidadRecursoDesdeId")
+    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+    void actualizarEntidadDesdeDto(ModuloDto dto, @MappingTarget Modulo entidad);
+
     @Named("crearEntidadCursoDesdeId")
     default Curso crearEntidadCursoDesdeId(Long cursoId) {
         if(cursoId == null) {

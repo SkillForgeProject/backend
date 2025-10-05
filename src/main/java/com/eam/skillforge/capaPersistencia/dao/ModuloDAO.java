@@ -7,9 +7,10 @@ import com.eam.skillforge.capaPersistencia.repositorio.ModuloRepositorio;
 import com.eam.skillforge.capaNegocio.excepciones.ModuloNoEncontradoExcepcion;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
+
+import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor
@@ -46,5 +47,19 @@ public class ModuloDAO {
         moduloRepositorio.eliminarModuloPorId(id);
 
        return true;
+    }
+
+    public Optional<ModuloDto> actualizar(Long moduloId, ModuloDto modulo) {
+        return moduloRepositorio.findById(moduloId)
+                .map(entidadExistente -> {
+                    moduloMapper.actualizarEntidadDesdeDto(modulo, entidadExistente);
+                    Modulo entidadActualizada = moduloRepositorio.save(entidadExistente);
+                    return moduloMapper.toDto(entidadActualizada);
+                });
+    }
+
+    public Optional<ModuloDto> buscarPorId(Long moduloId) {
+        return moduloRepositorio.findById(moduloId)
+                .map(moduloMapper::toDto);
     }
 }

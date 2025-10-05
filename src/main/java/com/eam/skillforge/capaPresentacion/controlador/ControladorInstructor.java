@@ -196,4 +196,31 @@ public class ControladorInstructor {
                     .body("Error al eliminar el módulo");
         }
     }
+
+
+    @PutMapping("/modulos/{moduloId}")
+    @Operation(
+            summary = "Acualizar módulo por ID",
+            description = "Actualiza un módulo específico usando su ID"
+    )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Módulo actualizado exitosamente"),
+            @ApiResponse(responseCode = "404", description = "Módulo no encontrado"),
+            @ApiResponse(responseCode = "500", description = "Error interno del servidor")
+    })
+    public ResponseEntity<ModuloDto> putModulo(@PathVariable Long moduloId, @RequestBody ModuloDto modulo) {
+        log.info("PUT /tutor/modulos/{} - Actualizando módulo", moduloId);
+        try {
+            ModuloDto moduloActualizado = tutorServicio.actualizarModulo(moduloId, modulo);
+            log.info("Módulo actualizado exitosamente ID: {}", moduloId);
+            return ResponseEntity.ok(moduloActualizado);
+        } catch (RuntimeException e) {
+            if(e.getMessage().contains("no encontrado")) {
+                log.warn("Módulo no encontrado para actualizar ID: {}", moduloId);
+                return ResponseEntity.notFound().build();
+            }
+            log.warn("Error al actualizar módulo ID: {}: {}", moduloId, e.getMessage());
+            return ResponseEntity.badRequest().build();
+        }
+    }
 }

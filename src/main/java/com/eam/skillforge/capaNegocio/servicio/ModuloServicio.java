@@ -6,4 +6,6 @@ public interface ModuloServicio {
     ModuloDto guardarModulo(ModuloDto modulo);
 
     boolean eliminarModuloPorId(Long id);
+
+    ModuloDto getModuloPorId(Long id);
 }

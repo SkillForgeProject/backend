@@ -16,6 +16,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.List;
 
 @Service
 @Transactional
@@ -65,6 +66,12 @@ public class ModuloRecursoServicioImpl implements ModuloRecursoServicio {
         } else {
             throw new IllegalArgumentException("La URL no es válida: " + url);
         }
+    }
+
+    @Override
+    public List<ModuloRecursoDto> getRecursosPorModulo(Long moduloId) {
+        log.debug("Obteniendo todos los recursos del modulo ID: {}", moduloId);
+        return moduloRecursoDAO.getRecursosPorModulo(moduloId);
     }
 
     private boolean esUrlValida(String url) {

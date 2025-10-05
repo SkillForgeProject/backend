@@ -9,6 +9,8 @@ import org.mapstruct.Mapping;
 import org.mapstruct.Named;
 import org.mapstruct.ReportingPolicy;
 
+import java.util.List;
+
 @Mapper(
         componentModel = "spring",
         unmappedTargetPolicy = ReportingPolicy.WARN
@@ -18,6 +20,8 @@ public interface ModuloRecursoMapper {
     @Mapping(target = "moduloId", source = "modulo.id")
     @Mapping(target = "recursoId", source = "recurso.id")
     ModuloRecursoDto toDto(ModuloRecurso entidad);
+
+    List<ModuloRecursoDto> toDtoList(List<ModuloRecurso> entidades);
 
 
     @Mapping(target = "modulo", source = "moduloId", qualifiedByName = "crearModuloDesdeId")

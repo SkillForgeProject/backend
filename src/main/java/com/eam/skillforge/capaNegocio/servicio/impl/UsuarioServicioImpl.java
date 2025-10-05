@@ -1,9 +1,11 @@
     package com.eam.skillforge.capaNegocio.servicio.impl;
 
     import com.eam.skillforge.capaNegocio.dto.CursoDto;
+    import com.eam.skillforge.capaNegocio.dto.ModuloRecursoDto;
     import com.eam.skillforge.capaNegocio.dto.UsuarioDto;
     import com.eam.skillforge.capaNegocio.excepciones.CorreoNoEncontradoExcepcion;
     import com.eam.skillforge.capaNegocio.servicio.CursoServicio;
+    import com.eam.skillforge.capaNegocio.servicio.ModuloRecursoServicio;
     import com.eam.skillforge.capaNegocio.servicio.UsuarioServicio;
     import com.eam.skillforge.capaPersistencia.dao.UsuarioDAO;
     import jakarta.transaction.Transactional;
@@ -22,6 +24,7 @@
 
         private final UsuarioDAO usuarioDAO;
         private final CursoServicio cursoServicio;
+        private final ModuloRecursoServicio moduloRecursoServicio;
 
         @Override
         public UsuarioDto getUsuarioPorCorreo(String correo){
@@ -59,6 +62,13 @@
             log.debug("Buscando cursos por ID de nivel: {}", nivelId);
 
             return cursoServicio.buscarCursosPorNivel(nivelId);
+        }
+
+        @Override
+        public List<ModuloRecursoDto> getRecursosPorModulo(Long moduloId) {
+            List<ModuloRecursoDto> recursos = moduloRecursoServicio.getRecursosPorModulo(moduloId);
+            log.info("{} recursos encontrados", recursos.size());
+            return recursos;
         }
 
     }

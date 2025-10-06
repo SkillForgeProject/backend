@@ -83,10 +83,9 @@ public class CursoServicioImpl implements CursoServicio {
     @Transactional
     public List<CursoDto> getCursosActivos(){
         log.debug("Obteniendo los cursos activos");
-
-        List<CursoDto> CursosActivos = cursoDAO.getCursosActivos();
-
+        List<CursoDto> cursosActivos = cursoDAO.getCursosActivos();
         log.info("Se encontraron los cursos activos");
-        return CursosActivos;
+        return cursosActivos;
     }
+
 }

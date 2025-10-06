@@ -44,6 +44,4 @@ import org.springframework.stereotype.Repository;
         @Query("SELECT c FROM Curso c WHERE c.isActivo = true")
         List<Curso> getCursosActivos();
 
-
-
     }

@@ -216,5 +216,22 @@ public class ControladorCurso {
         return new ResponseEntity<>(cursos, HttpStatus.OK);
     }
 
+    /*
+    @GetMapping("/progreso/{idCurso}")
+    @Operation(summary = "Obtiene los cursos activos por nivel")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Se obtuvo los cursos correctamente"),
+            @ApiResponse(responseCode = "500", description = "Error al obtener los cursos por id del usuario"),
+            @ApiResponse(responseCode = "404", description = "No se encontraron los cursos por id del usuario")
+    })
+    public ResponseEntity<List<CursoDto>> getEstadoProgresoPorIdCurso(Long idUsuario){
+        log.info("GET curso/{id}/usuario - Obteniendo cursos por el id de un usuario");
+        List<CursoDto> cursos = cursoServicio.getCursosPorIdUsuario(idUsuario);
+        return new ResponseEntity<>(cursos, HttpStatus.OK);
+    }
+    */
+
+
+
 
 }

@@ -153,3 +153,20 @@ CREATE TABLE Opcion_Pregunta (
 	esCorrecto BOOLEAN,
 	FOREIGN KEY (id_pregunta) REFERENCES Pregunta(id)
 );
+
+CREATE TABLE EstadoSolicitud (
+    id int PRIMARY KEY AUTO_INCREMENT,
+    estado varchar(255)
+);
+
+INSERT INTO EstadoSolicitud (estado) VALUES ('APROBADA'), ('ENESPERA'), ('DENEGADA');
+
+CREATE TABLE Solicitud (
+    id INTEGER PRIMARY KEY AUTO_INCREMENT,
+    usuarioId INTEGER,
+    cursoId INTEGER,
+    estadoSolicitud INT,
+    FOREIGN KEY (usuarioId) REFERENCES Usuario(id),
+    FOREIGN KEY (cursoId) REFERENCES Curso(id),
+    FOREIGN KEY (estadoSolicitud) REFERENCES EstadoSolicitud(id)
+);

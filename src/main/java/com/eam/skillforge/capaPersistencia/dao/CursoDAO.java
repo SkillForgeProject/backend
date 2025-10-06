@@ -75,8 +75,12 @@ public class CursoDAO {
 
     public List<CursoDto> getCursosActivos(){
         List<Curso> cursosActivos = cursoRepositorio.getCursosActivos();
-
         return cursoMapper.toDTOList(cursosActivos);
+    }
+
+    public List<CursoDto> getCursosPorIdUsuario(Long idUsuario){
+        List<Curso> cursosAprendiz = cursoRepositorio.getCursosPorIdUsuario(idUsuario);
+        return cursoMapper.toDTOList(cursosAprendiz);
     }
 
 }

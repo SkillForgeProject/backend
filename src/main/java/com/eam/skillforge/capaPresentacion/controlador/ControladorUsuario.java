@@ -1,6 +1,7 @@
 package com.eam.skillforge.capaPresentacion.controlador;
 
 import com.eam.skillforge.capaNegocio.dto.CursoDto;
+import com.eam.skillforge.capaNegocio.dto.ModuloRecursoDto;
 import com.eam.skillforge.capaNegocio.dto.UsuarioDto;
 import com.eam.skillforge.capaNegocio.servicio.UsuarioServicio;
 import io.swagger.v3.oas.annotations.Operation;
@@ -50,6 +51,28 @@ public class ControladorUsuario {
         log.info("GET usuario/curso/ - Obteniendo todos cursos por nivel ID: {}", nivelId);
         List<CursoDto> cursos = usuarioServicio.getCursosPorNivel(nivelId);
         return ResponseEntity.ok(cursos);
+    }
+
+    @GetMapping("/modulo/{moduloId}/recursos")
+    @Operation(summary = "Obtener el recurso de ese módulo") // INDUCCION, CAPACITACION, ESPECIALIZACION
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Recurso obtenido exitosamente"),
+            @ApiResponse(responseCode = "404", description = "Recurso no encontrado con el ID del modulo"),
+            @ApiResponse(responseCode = "500", description = "Error interno del servidor")
+    })
+    public ResponseEntity<List<ModuloRecursoDto>> getRecursosPorModulo(@PathVariable Long moduloId) {
+        log.info("GET /tutor/modulo/{}/recursos - Buscando recursos del módulo", moduloId);
+        try {
+            List<ModuloRecursoDto> recursos = usuarioServicio.getRecursosPorModulo(moduloId);
+            if (recursos.isEmpty()) {
+                log.warn("No se encontraron recursos para el módulo ID {}", moduloId);
+                return ResponseEntity.notFound().build();
+            }
+            return ResponseEntity.ok(recursos);
+        } catch (Exception e) {
+            log.error("Error al obtener los recursos del módulo {}: {}", moduloId, e.getMessage());
+            return ResponseEntity.internalServerError().build();
+        }
     }
 
 }

@@ -1,9 +1,6 @@
 package com.eam.skillforge.capaPersistencia.dao;
 
-import com.eam.skillforge.capaNegocio.dto.CursoDto;
-import com.eam.skillforge.capaNegocio.dto.CursoDiferenciaUsuariosDto;
-import com.eam.skillforge.capaNegocio.dto.TopCursoDto;
-import com.eam.skillforge.capaNegocio.dto.UsuarioDto;
+import com.eam.skillforge.capaNegocio.dto.*;
 import com.eam.skillforge.capaPersistencia.entidad.Curso;
 import com.eam.skillforge.capaPersistencia.entidad.Usuario;
 import com.eam.skillforge.capaPersistencia.mapper.CursoMapper;

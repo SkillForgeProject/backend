@@ -1,8 +1,10 @@
 package com.eam.skillforge.capaPresentacion.controlador;
 
+import com.eam.skillforge.capaNegocio.dto.ReporteCursoDto;
 import com.eam.skillforge.capaNegocio.dto.UsuarioDto;
 import com.eam.skillforge.capaNegocio.dto.UsuariosPorCursoMesDTO;
 import com.eam.skillforge.capaNegocio.servicio.AdministradorServicio;
+import com.eam.skillforge.capaNegocio.servicio.ReporteServicio;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -12,10 +14,12 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.coyote.Response;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -25,6 +29,8 @@ import java.util.List;
 @Tag(name = "Administrador")
 public class ControladorAdministrador {
     private final AdministradorServicio administradorServicio;
+    private final ReporteServicio reporteServicio;
+
     @PostMapping
     @Operation(summary = "Crear usuario")
     @ApiResponses(value = {
@@ -101,5 +107,37 @@ public class ControladorAdministrador {
     public ResponseEntity<List<UsuariosPorCursoMesDTO>> getUsuariosPorCursoMes() {
         List<UsuariosPorCursoMesDTO> usuariosPorCursoMes = administradorServicio.getUsuariosPorCursoMes();
         return new ResponseEntity<>(usuariosPorCursoMes, HttpStatus.OK);
+    }
+
+    @GetMapping("/admin/reportes/cursos/rendimiento")
+    @Operation(summary = "Métricas administrativas sobre los cursos de la plataforma")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Datos para el reporte"),
+            @ApiResponse(responseCode = "400", description = "Solicitud incorrecta"),
+            @ApiResponse(responseCode = "403", description = "usuario no autorizado"),
+            @ApiResponse(responseCode = "500", description = "Error interno del servidor")
+    })
+    public ResponseEntity<Page<ReporteCursoDto>> getReporteCurso(
+            @RequestParam(required = false) LocalDate fechaDesde,
+            @RequestParam(required = false) LocalDate fechaHasta,
+            @RequestParam(required = false) Long categoriaId,
+            @RequestParam(required = false) Long tutorId,
+            @RequestParam(required = false, defaultValue = "0") int pagina,
+            @RequestParam(required = false, defaultValue = "20") int tamano
+            ) {
+        log.info("GET /admin/reportes/cursos/rendimiento?desde={}&hasta={}&categoriaId={}" +
+                        "&tutorId={}&pagina={}&tamano={}",
+                fechaDesde, fechaHasta, categoriaId, tutorId, pagina, tamano);
+        try {
+            Page<ReporteCursoDto> reporte = reporteServicio.getRendimientoCursos(
+                    fechaDesde, fechaHasta, categoriaId, tutorId, pagina, tamano);
+            return ResponseEntity.ok(reporte);
+        } catch(IllegalArgumentException e) {
+            log.warn("Datos inválidos {}", e.getMessage());
+            return ResponseEntity.badRequest().build();
+        } catch(Exception e) {
+            log.error("Error interno del servidor {}", e.getMessage());
+            return ResponseEntity.internalServerError().build();
+        }
     }
 }

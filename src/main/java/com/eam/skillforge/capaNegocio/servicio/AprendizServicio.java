@@ -17,4 +17,6 @@ public interface AprendizServicio {
 
     Integer getCantidadCertificaciones(Long usuarioId);
 
+    List<CursoDto> getCursosCompletadosPorIdUsuario(Long usuarioId);
+
 }

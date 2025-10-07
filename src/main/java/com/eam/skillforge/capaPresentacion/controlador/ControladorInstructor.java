@@ -1,7 +1,6 @@
 package com.eam.skillforge.capaPresentacion.controlador;
 
-import com.eam.skillforge.capaNegocio.dto.CursoDto;
-import com.eam.skillforge.capaNegocio.dto.UsuarioDto;
+import com.eam.skillforge.capaNegocio.dto.*;
 import com.eam.skillforge.capaNegocio.servicio.TutorServicio;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -15,13 +14,13 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import com.eam.skillforge.capaNegocio.dto.ModuloDto;
 
 @RestController
 @RequestMapping("/tutor")
@@ -194,6 +193,108 @@ public class ControladorInstructor {
             log.error("No se pudo eliminar el módulo con ID: {}", id);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body("Error al eliminar el módulo");
+        }
+    }
+    @PostMapping("/evaluacion")
+    @Operation(
+            summary = "Insertar evaluación"
+    )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Evaluación creada"),
+            @ApiResponse(responseCode = "500", description = "Error interno del servidor")
+    })
+    public ResponseEntity postEvaluacion(@RequestBody CreacionEvaluacionDto creacionEvaluacion) {
+        tutorServicio.crearEvaluacion(creacionEvaluacion);
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
+
+    @PutMapping("/modulos/{moduloId}")
+    @Operation(
+            summary = "Acualizar módulo por ID",
+            description = "Actualiza un módulo específico usando su ID"
+    )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Módulo actualizado exitosamente"),
+            @ApiResponse(responseCode = "404", description = "Módulo no encontrado"),
+            @ApiResponse(responseCode = "500", description = "Error interno del servidor")
+    })
+    public ResponseEntity<ModuloDto> putModulo(@PathVariable Long moduloId, @RequestBody ModuloDto modulo) {
+        log.info("PUT /tutor/modulos/{} - Actualizando módulo", moduloId);
+        try {
+            ModuloDto moduloActualizado = tutorServicio.actualizarModulo(moduloId, modulo);
+            log.info("Módulo actualizado exitosamente ID: {}", moduloId);
+            return ResponseEntity.ok(moduloActualizado);
+        } catch (RuntimeException e) {
+            if(e.getMessage().contains("no encontrado")) {
+                log.warn("Módulo no encontrado para actualizar ID: {}", moduloId);
+                return ResponseEntity.notFound().build();
+            }
+            log.warn("Error al actualizar módulo ID: {}: {}", moduloId, e.getMessage());
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
+    @PostMapping("/cursos/agregar/{usuarioId}/{cursoId}")
+    @Operation(
+            summary = "Asignar curso a un ususario a través de sus IDs",
+            description = "Asigna un curso a un usuario a través de sus IDs"
+    )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "asignación exitosa"),
+            @ApiResponse(responseCode = "404", description = "Usuario o Curso no encontrado"),
+            @ApiResponse(responseCode = "500", description = "Error interno del servidor")
+    })
+    public ResponseEntity<InscripcionDto> asignarUsuarioACurso(@PathVariable Long usuarioId, @PathVariable Long cursoId) {
+        log.info("PUT /tutor/cursos/agregar/{}/{} - Asignando curso", usuarioId, cursoId);
+        try {
+            InscripcionDto inscrito = tutorServicio.asignarCurso(usuarioId, cursoId);
+            log.info("curso asignado exitosamente ID: {}", inscrito.getId());
+            return ResponseEntity.ok(inscrito);
+        } catch (RuntimeException e) {
+            if(e.getMessage().contains("no encontrado")) {
+                log.warn("Usuario o curos no encontrados para asignar ID: {}, {}", usuarioId, cursoId);
+                return ResponseEntity.notFound().build();
+            }
+            log.warn("Error al actualizar módulo ID: {}, {}: {}", usuarioId, cursoId, e.getMessage());
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
+    @PostMapping(
+            value = "/modulo/{moduloId}/recurso/{recursoId}/cargar",
+            consumes = {MediaType.MULTIPART_FORM_DATA_VALUE, MediaType.ALL_VALUE})
+    @Operation(
+            summary = "Cargar archivos de tipo recurso",
+            description = "Carga archivos de tipo recurso"
+    )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "cargue exitoso"),
+            @ApiResponse(responseCode = "404", description = "modulo o recurso no encontrado"),
+            @ApiResponse(responseCode = "500", description = "Error interno del servidor")
+    })
+    public ResponseEntity<ModuloRecursoDto> cargarArchivo(
+            @PathVariable Long moduloId,
+            @PathVariable Long recursoId,
+            @RequestPart(value = "archivo", required = false) MultipartFile archivo,
+            @RequestPart(value = "url", required = false) String url) {
+        log.info("POST /tutor/modulo/{}/recurso/{}/cargar - Asignando curso", moduloId, recursoId);
+        log.info("Archivo recibido: {}", archivo != null ? archivo.getOriginalFilename() : null);
+        log.info("URL recibida: {}", url);
+        try {
+            ModuloRecursoDto cargado = tutorServicio.cargarRecurso(moduloId, recursoId, archivo, url);
+            log.info("Recurso cargado exitosamente ID: {}", cargado.getId());
+            return ResponseEntity.ok(cargado);
+        } catch (RuntimeException e) {
+            if(e.getMessage().contains("no encontrado")) {
+                log.warn("Modulo o recurso no encontrados para asignar ID: {}, {}", moduloId, recursoId);
+                return ResponseEntity.notFound().build();
+            }
+            log.warn("Error al cargar el recurso ID: {}, {}: {}", moduloId, recursoId, e.getMessage());
+            return ResponseEntity.badRequest().build();
+        } catch (Exception e) {
+            log.warn("Error interno del servidor");
+            return ResponseEntity.internalServerError().build();
         }
     }
 }

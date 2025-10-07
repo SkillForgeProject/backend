@@ -67,4 +67,10 @@ public class AprendizServicioImpl implements AprendizServicio {
 
         return cantidad;
     }
+
+    @Override
+    public List<CursoDto> getCursosCompletadosPorIdUsuario(Long usuarioId) {
+        log.debug("Obteniendo todos los cursos completados");
+        return aprendizDAO.getCursosCompletadosPorIdUsuario(usuarioId);
+    }
 }

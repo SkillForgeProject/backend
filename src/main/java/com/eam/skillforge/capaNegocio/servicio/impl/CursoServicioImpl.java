@@ -3,14 +3,19 @@ package com.eam.skillforge.capaNegocio.servicio.impl;
 import com.eam.skillforge.capaNegocio.dto.CursoDto;
 import com.eam.skillforge.capaNegocio.dto.CursoDiferenciaUsuariosDto;
 import com.eam.skillforge.capaNegocio.dto.TopCursoDto;
+import com.eam.skillforge.capaNegocio.dto.UsuarioDto;
 import com.eam.skillforge.capaNegocio.servicio.CursoServicio;
 import com.eam.skillforge.capaPersistencia.dao.CursoDAO;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+
+import com.eam.skillforge.capaNegocio.excepciones.CursoNoEncontradoExcepcion;
 
 @Service
 @Transactional
@@ -73,6 +78,25 @@ public class CursoServicioImpl implements CursoServicio {
         
         log.info("Se encontraron {} cursos con diferencia de usuarios", cursosConDiferencia.size());
         return cursosConDiferencia;
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<UsuarioDto> getCursosPorInscripcion(Long cursoId) {
+        log.info("Obteniendo cursos por inscripción para el curso ID: {}", cursoId);
+        
+        try {
+            List<UsuarioDto> cursos = cursoDAO.getCursosPorInscripcion(cursoId);
+            log.info("Se obtuvieron {} cursos por inscripción exitosamente", cursos.size());
+            return cursos;
+            
+        } catch (CursoNoEncontradoExcepcion e) {
+            log.error("No se encontraron cursos para la inscripción del curso ID {}: {}", cursoId, e.getMessage());
+            throw e;
+        } catch (Exception e) {
+            log.error("Error inesperado al obtener cursos por inscripción para el curso ID {}: {}", cursoId, e.getMessage());
+            throw new RuntimeException("Error interno al obtener los cursos por inscripción", e);
+        }
     }
 
     private void validarDataCurso(CursoDto curso) {

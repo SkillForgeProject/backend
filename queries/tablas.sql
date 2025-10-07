@@ -49,9 +49,9 @@ CREATE TABLE Recurso (
   nombre NVARCHAR(255)
 );
 
-INSERT INTO recurso (nombre) VALUES ('VIDEO'), ('TEXTO'), ('PRACTICA');
+INSERT INTO recurso (nombre) VALUES ('VIDEO'), ('TEXTO'), ('PRACTICA'), ('PDF');
 
-CREATE TABLE Modulo (
+CREATE TABLE modulo (
   id integer PRIMARY KEY AUTO_INCREMENT,
   cursoId integer,
   titulo varchar(255),
@@ -152,6 +152,16 @@ CREATE TABLE Opcion_Pregunta (
 	opcion VARCHAR(255),
 	esCorrecto BOOLEAN,
 	FOREIGN KEY (id_pregunta) REFERENCES Pregunta(id)
+);
+
+CREATE TABLE Modulo_recurso (
+	id INT PRIMARY KEY AUTO_INCREMENT,
+	recursoId INT,
+	moduloId INT,
+	rutaArchivo VARCHAR(500),
+	urlExterna VARCHAR(500),
+	FOREIGN KEY (recursoId) REFERENCES recurso(id),
+	FOREIGN KEY (moduloId) REFERENCES modulo(id)
 );
 
 CREATE TABLE EstadoSolicitud (

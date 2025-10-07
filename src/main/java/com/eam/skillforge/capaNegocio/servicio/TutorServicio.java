@@ -3,9 +3,8 @@ package com.eam.skillforge.capaNegocio.servicio;
 import java.util.List;
 import java.util.Optional;
 
-import com.eam.skillforge.capaNegocio.dto.CursoDto;
-import com.eam.skillforge.capaNegocio.dto.ModuloDto;
-import com.eam.skillforge.capaNegocio.dto.UsuarioDto;
+import com.eam.skillforge.capaNegocio.dto.*;
+import org.springframework.web.multipart.MultipartFile;
 
 public interface TutorServicio {
 
@@ -24,4 +23,10 @@ public interface TutorServicio {
     ModuloDto actualizarModulo(Long moduloId, ModuloDto modulo);
 
     boolean eliminarModuloPorId(Long id);
+
+    InscripcionDto asignarCurso(Long usuarioId, Long cursoId);
+
+    void crearEvaluacion(CreacionEvaluacionDto creacionEvaluacion);
+
+    ModuloRecursoDto cargarRecurso(Long moduloId, Long recursoId, MultipartFile archivo, String url);
 }

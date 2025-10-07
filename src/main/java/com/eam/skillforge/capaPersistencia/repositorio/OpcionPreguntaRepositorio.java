@@ -24,4 +24,13 @@ public interface OpcionPreguntaRepositorio extends JpaRepository<OpcionPregunta,
     """)
     List<RespuestaCorrectaDto> getRespuestasCorrectas(@Param("evaluacionId") Long evaluacionId);
 
+    @Query(value = "INSERT INTO opcion_pregunta (id_pregunta, opcion, esCorrecto) "
+            + "VALUES (:id_pregunta, :opcion, :esCorrecto)",
+            nativeQuery = true)
+    void insertarOpcionPreguntaNativa(@Param("id_pregunta") Long id_pregunta,
+            @Param("opcion") String opcion,
+            @Param("esCorrecto") Boolean esCorrecto);
+
+    @Query(value = "SELECT LAST_INSERT_ID()", nativeQuery = true)
+    Long obtenerUltimoIdInsertado();
 }

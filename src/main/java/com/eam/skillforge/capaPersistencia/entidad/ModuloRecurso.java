@@ -6,30 +6,26 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "curso")
+@Table(name = "modulo_recurso")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-
-public class Curso {
+public class ModuloRecurso {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String titulo;
-
-    private String descripcion;
-
-    private Long duracionEstim;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "moduloId")
+    private Modulo modulo;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "nivel", nullable = false)
-    private Categoria categoria;
+    @JoinColumn(name = "recursoId")
+    private Recurso recurso;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_tutor", nullable = false)
-    private Usuario tutor;
+    private String rutaArchivo;
 
-    private Boolean isActivo = false;
+    @Column(name = "urlExterna")
+    private String url;
 }

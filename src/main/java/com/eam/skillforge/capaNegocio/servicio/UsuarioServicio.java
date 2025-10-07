@@ -1,6 +1,7 @@
 package com.eam.skillforge.capaNegocio.servicio;
 
 import com.eam.skillforge.capaNegocio.dto.CursoDto;
+import com.eam.skillforge.capaNegocio.dto.ModuloRecursoDto;
 import com.eam.skillforge.capaNegocio.dto.UsuarioDto;
 
 import java.util.List;
@@ -12,4 +13,6 @@ public interface UsuarioServicio {
     UsuarioDto buscarPorId(Long usuarioId);
 
     List<CursoDto> getCursosPorNivel(Long nivelId);
+
+    List<ModuloRecursoDto> getRecursosPorModulo(Long moduloId);
 }

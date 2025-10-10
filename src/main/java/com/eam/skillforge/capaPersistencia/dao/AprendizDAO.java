@@ -3,6 +3,8 @@ package com.eam.skillforge.capaPersistencia.dao;
 import com.eam.skillforge.capaNegocio.dto.CursoDto;
 import com.eam.skillforge.capaNegocio.dto.UsuarioDto;
 import com.eam.skillforge.capaPersistencia.entidad.Curso;
+import com.eam.skillforge.capaPersistencia.entidad.EstadoSolicitud;
+import com.eam.skillforge.capaPersistencia.entidad.Solicitud;
 import com.eam.skillforge.capaPersistencia.mapper.CursoMapper;
 import com.eam.skillforge.capaPersistencia.mapper.UsuarioMapper;
 import com.eam.skillforge.capaPersistencia.repositorio.AprendizRepositorio;
@@ -46,4 +48,10 @@ public class AprendizDAO {
     public List<CursoDto> getCursosCompletadosPorIdUsuario(Long usuarioId) {
         return aprendizRepositorio.getCursosCompletadosPorIdUsuario(usuarioId);
     }
+
+    public void postSolicitudInscripcionCurso(Long usuarioId, Long cursoId) {
+        aprendizRepositorio.postSolicitudInscripcionCurso(usuarioId, cursoId);
+    }
+
+
 }

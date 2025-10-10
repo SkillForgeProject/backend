@@ -2,6 +2,7 @@ package com.eam.skillforge.capaPersistencia.repositorio;
 
 import com.eam.skillforge.capaNegocio.dto.CursoDto;
 import com.eam.skillforge.capaPersistencia.entidad.Curso;
+import com.eam.skillforge.capaPersistencia.entidad.EstadoSolicitud;
 import com.eam.skillforge.capaPersistencia.entidad.Usuario;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.NativeQuery;
@@ -50,4 +51,14 @@ public interface AprendizRepositorio extends JpaRepository<Usuario, Long> {
             AND i.usuario.id = :usuarioId
             """)
     List<CursoDto> getCursosCompletadosPorIdUsuario(@Param("usuarioId") Long usuarioId);
+
+    @Query(value = """
+            INSERT INTO Solicitud (usuarioId, cursoId, estadoSolicitud)
+            VALUES (:usuarioId, :cursoId, 
+            (SELECT id FROM EstadoSolicitud WHERE estado = 'ENESPERA'))
+            """, nativeQuery = true)
+    void postSolicitudInscripcionCurso(@Param("usuarioId") Long usuarioId, @Param("cursoId") Long cursoId);
+
+
+
 }

@@ -88,4 +88,26 @@ public class ControladorAprendiz {
         log.info("Se encontraron {} cursos", cursos.size());
         return ResponseEntity.ok(cursos);
     }
+
+    @PostMapping("/{usuarioId}/solicitud/{cursoId}")
+    @Operation(summary = "Crea una solicitud para la inscripción de un aprendiz a un curso")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Solicitud creada correctamente"),
+            @ApiResponse(responseCode = "500", description = "Error al crear la solicitud"),
+            @ApiResponse(responseCode = "404", description = "No se encuentra el recurso para crear la solicitud")
+    })
+    public ResponseEntity<String> postSolicitudInscripcionCurso(@PathVariable Long usuarioId, @PathVariable Long cursoId) {
+        log.info("POST aprendiz/{}/solicitud/{} - Creando solicitud de inscripción", usuarioId, cursoId);
+
+        try {
+            aprendizServicio.postSolicitudInscripcionCurso(usuarioId, cursoId);
+            return ResponseEntity
+                    .status(HttpStatus.OK)
+                    .body("Solicitud creada correctamente en estado ENESPERA.");
+        } catch (RuntimeException e) {
+            log.error("Error al crear la solicitud: {}", e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Error al crear la solicitud: " + e.getMessage());
+        }
+    }
 }

@@ -10,7 +10,9 @@ import java.util.List;
 public interface AprendizServicio {
 
     UsuarioDto getUsuarioPorId(Long id);
-    void putProgresoModulo(int usuarioId,Double progreso, int moduloId);
+
+    void putProgresoModulo(int usuarioId, Double progreso, int moduloId);
+
     Double getProgresoCurso(int usuarioId, int cursoId);
 
     List<CursoDto> getCursosPorIdUsuario(Long idUsuario);
@@ -18,5 +20,7 @@ public interface AprendizServicio {
     Integer getCantidadCertificaciones(Long usuarioId);
 
     List<CursoDto> getCursosCompletadosPorIdUsuario(Long usuarioId);
+
+    void postSolicitudInscripcionCurso(Long usuarioId,Long cursoId );
 
 }

@@ -4,7 +4,11 @@ import com.eam.skillforge.capaNegocio.dto.CursoDto;
 import com.eam.skillforge.capaNegocio.dto.UsuarioDto;
 import com.eam.skillforge.capaNegocio.servicio.AprendizServicio;
 import com.eam.skillforge.capaPersistencia.dao.AprendizDAO;
+import com.eam.skillforge.capaPersistencia.dao.CursoDAO;
 import com.eam.skillforge.capaPersistencia.entidad.Curso;
+import com.eam.skillforge.capaPersistencia.entidad.EstadoSolicitud;
+import com.eam.skillforge.capaPersistencia.entidad.Solicitud;
+import com.eam.skillforge.capaPersistencia.entidad.Usuario;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -18,6 +22,7 @@ import java.util.List;
 @Slf4j
 public class AprendizServicioImpl implements AprendizServicio {
     private final AprendizDAO aprendizDAO;
+    private final CursoDAO cursoDAO;
 
     @Override
     @Transactional(readOnly = true)
@@ -72,5 +77,25 @@ public class AprendizServicioImpl implements AprendizServicio {
     public List<CursoDto> getCursosCompletadosPorIdUsuario(Long usuarioId) {
         log.debug("Obteniendo todos los cursos completados");
         return aprendizDAO.getCursosCompletadosPorIdUsuario(usuarioId);
+    }
+
+    @Transactional
+    @Override
+    public void postSolicitudInscripcionCurso(Long usuarioId, Long cursoId) {
+
+        UsuarioDto usuario = aprendizDAO.buscarPorId(usuarioId)
+                .orElseThrow(() -> {
+                    log.warn("Usuario no encontrado por ID: {}", usuarioId);
+                    return new RuntimeException("Usuario no encontrado con ID: " + usuarioId);
+                });
+        CursoDto curso = cursoDAO.buscarPorId(cursoId)
+                .orElseThrow(() -> {
+                    log.warn("Curso no encontrado por ID: {}", cursoId);
+                    return new RuntimeException("Curso no encontrado con ID: " + cursoId);
+                });
+
+        aprendizDAO.postSolicitudInscripcionCurso(usuarioId, cursoId);
+
+        log.info("Solicitud creada correctamente para el curso {} y usuario {}", cursoId, usuarioId);
     }
 }

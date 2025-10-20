@@ -1,4 +1,4 @@
-CREATE DATABASE skillforge;
+solicitudCREATE DATABASE skillforge;
 USE skillforge;
 
 CREATE TABLE departamento (
@@ -162,4 +162,21 @@ CREATE TABLE Modulo_recurso (
 	urlExterna VARCHAR(500),
 	FOREIGN KEY (recursoId) REFERENCES recurso(id),
 	FOREIGN KEY (moduloId) REFERENCES modulo(id)
+);
+
+CREATE TABLE EstadoSolicitud (
+    id int PRIMARY KEY AUTO_INCREMENT,
+    estado varchar(255)
+);
+
+INSERT INTO EstadoSolicitud (estado) VALUES ('APROBADA'), ('ENESPERA'), ('DENEGADA');
+
+CREATE TABLE Solicitud (
+    id INTEGER PRIMARY KEY AUTO_INCREMENT,
+    usuarioId INTEGER,
+    cursoId INTEGER,
+    estadoSolicitud INT,
+    FOREIGN KEY (usuarioId) REFERENCES Usuario(id),
+    FOREIGN KEY (cursoId) REFERENCES Curso(id),
+    FOREIGN KEY (estadoSolicitud) REFERENCES EstadoSolicitud(id)
 );

@@ -21,4 +21,5 @@ public interface CursoServicio {
     List<CursoDto> getCursosActivos();
 
     List<UsuarioDto> getCursosPorInscripcion(Long cursoId);
+
 }

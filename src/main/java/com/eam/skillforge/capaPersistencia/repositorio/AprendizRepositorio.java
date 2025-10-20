@@ -2,8 +2,10 @@ package com.eam.skillforge.capaPersistencia.repositorio;
 
 import com.eam.skillforge.capaNegocio.dto.CursoDto;
 import com.eam.skillforge.capaPersistencia.entidad.Curso;
+import com.eam.skillforge.capaPersistencia.entidad.EstadoSolicitud;
 import com.eam.skillforge.capaPersistencia.entidad.Usuario;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.NativeQuery;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -50,4 +52,42 @@ public interface AprendizRepositorio extends JpaRepository<Usuario, Long> {
             AND i.usuario.id = :usuarioId
             """)
     List<CursoDto> getCursosCompletadosPorIdUsuario(@Param("usuarioId") Long usuarioId);
+
+    @Query(value = """
+            INSERT INTO Solicitud (usuarioId, cursoId, estadoSolicitud)
+            VALUES (:usuarioId, :cursoId, 
+            (SELECT id FROM EstadoSolicitud WHERE estado = 'ENESPERA'))
+            """, nativeQuery = true)
+    void postSolicitudInscripcionCurso(@Param("usuarioId") Long usuarioId, @Param("cursoId") Long cursoId);
+
+    @Query("""
+        SELECT CASE
+            WHEN COUNT(i) = 0 THEN 'NOINSCRITO'
+            WHEN SUM(i.progreso) = 0 THEN 'INSCRITO'
+            WHEN AVG(i.progreso) < 100 THEN 'ENPROGRESO'
+            ELSE 'COMPLETADO'
+        END
+        FROM Inscripcion i
+        WHERE i.curso.id = :cursoId
+    """)
+    String getEstadoProgresoPorIdCurso(@Param("cursoId") Long cursoId);
+
+    @Query(value = """
+    SELECT progreso
+    FROM inscripcion
+    WHERE moduloId = :moduloId
+    LIMIT 1
+    """, nativeQuery = true)
+    Double getProgresoPorModulo(@Param("moduloId") Long moduloId);
+
+    @Modifying
+    @Query(value = """
+    UPDATE inscripcion
+    SET estado = :nuevoEstado, fechaUltimoEstado = CURRENT_TIMESTAMP
+    WHERE moduloId = :moduloId
+    """, nativeQuery = true)
+    int putEstadoProgresoPorIdModulo(@Param("moduloId") Long moduloId,
+                                     @Param("nuevoEstado") int nuevoEstado);
 }
+
+

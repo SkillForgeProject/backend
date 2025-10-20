@@ -4,7 +4,8 @@ import com.eam.skillforge.capaNegocio.dto.CursoDto;
 import com.eam.skillforge.capaNegocio.dto.UsuarioDto;
 import com.eam.skillforge.capaNegocio.servicio.AprendizServicio;
 import com.eam.skillforge.capaPersistencia.dao.AprendizDAO;
-import com.eam.skillforge.capaPersistencia.entidad.Curso;
+import com.eam.skillforge.capaPersistencia.dao.CursoDAO;
+import com.eam.skillforge.capaPersistencia.entidad.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -18,6 +19,7 @@ import java.util.List;
 @Slf4j
 public class AprendizServicioImpl implements AprendizServicio {
     private final AprendizDAO aprendizDAO;
+    private final CursoDAO cursoDAO;
 
     @Override
     @Transactional(readOnly = true)
@@ -72,5 +74,72 @@ public class AprendizServicioImpl implements AprendizServicio {
     public List<CursoDto> getCursosCompletadosPorIdUsuario(Long usuarioId) {
         log.debug("Obteniendo todos los cursos completados");
         return aprendizDAO.getCursosCompletadosPorIdUsuario(usuarioId);
+    }
+
+    @Transactional
+    @Override
+    public void postSolicitudInscripcionCurso(Long usuarioId, Long cursoId) {
+
+        UsuarioDto usuario = aprendizDAO.buscarPorId(usuarioId)
+                .orElseThrow(() -> {
+                    log.warn("Usuario no encontrado por ID: {}", usuarioId);
+                    return new RuntimeException("Usuario no encontrado con ID: " + usuarioId);
+                });
+        CursoDto curso = cursoDAO.buscarPorId(cursoId)
+                .orElseThrow(() -> {
+                    log.warn("Curso no encontrado por ID: {}", cursoId);
+                    return new RuntimeException("Curso no encontrado con ID: " + cursoId);
+                });
+
+        aprendizDAO.postSolicitudInscripcionCurso(usuarioId, cursoId);
+
+        log.info("Solicitud creada correctamente para el curso {} y usuario {}", cursoId, usuarioId);
+    }
+
+    @Override
+    public Estado getEstadoProgresoPorIdCurso(Long cursoId){
+
+        log.debug("Obteniendo estado de progreso para el curso con ID: {}", cursoId);
+
+        String etapa = aprendizDAO.getEstadoProgresoPorIdCurso(cursoId);
+        if (etapa == null) {
+            log.warn("No se encontró progreso para el curso con ID {}", cursoId);
+            etapa = "NOINSCRITO";
+        }
+
+        Estado estado = new Estado();
+        estado.setEtapa(etapa);
+
+        return estado;
+    }
+
+    @Override
+    public Double getProgresoPorModulo(Long moduloId){
+        return aprendizDAO.getProgresoPorModulo(moduloId);
+    }
+
+    @Override
+    public void putEstadoProgresoPorIdModulo(Long moduloId){
+        log.info("Actualizando estado del módulo {}", moduloId);
+
+        Double progreso = aprendizDAO.getProgresoPorModulo(moduloId);
+
+        if (progreso == null) {
+            log.warn("No se encontró inscripción para el módulo {}", moduloId);
+            throw new RuntimeException("No se encontró inscripción para el módulo con id " + moduloId);
+        }
+
+        int nuevoEstado;
+        if (progreso >= 100) {
+            nuevoEstado = 3; // COMPLETADO
+        } else if (progreso > 0) {
+            nuevoEstado = 2; // EN CURSO
+        } else {
+            nuevoEstado = 1; // PENDIENTE
+        }
+
+        aprendizDAO.putEstadoProgresoPorIdModulo(moduloId, nuevoEstado);
+
+        log.info("Estado actualizado correctamente para módulo {} nuevo estado {}", moduloId, nuevoEstado);
     }
 }

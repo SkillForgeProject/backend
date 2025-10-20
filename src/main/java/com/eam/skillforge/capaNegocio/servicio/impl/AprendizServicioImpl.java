@@ -5,10 +5,7 @@ import com.eam.skillforge.capaNegocio.dto.UsuarioDto;
 import com.eam.skillforge.capaNegocio.servicio.AprendizServicio;
 import com.eam.skillforge.capaPersistencia.dao.AprendizDAO;
 import com.eam.skillforge.capaPersistencia.dao.CursoDAO;
-import com.eam.skillforge.capaPersistencia.entidad.Curso;
-import com.eam.skillforge.capaPersistencia.entidad.EstadoSolicitud;
-import com.eam.skillforge.capaPersistencia.entidad.Solicitud;
-import com.eam.skillforge.capaPersistencia.entidad.Usuario;
+import com.eam.skillforge.capaPersistencia.entidad.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -97,5 +94,22 @@ public class AprendizServicioImpl implements AprendizServicio {
         aprendizDAO.postSolicitudInscripcionCurso(usuarioId, cursoId);
 
         log.info("Solicitud creada correctamente para el curso {} y usuario {}", cursoId, usuarioId);
+    }
+
+    @Override
+    public Estado getEstadoProgresoPorIdCurso(Long cursoId){
+
+        log.debug("Obteniendo estado de progreso para el curso con ID: {}", cursoId);
+
+        String etapa = aprendizDAO.getEstadoProgresoPorIdCurso(cursoId);
+        if (etapa == null) {
+            log.warn("No se encontró progreso para el curso con ID {}", cursoId);
+            etapa = "NOINSCRITO";
+        }
+
+        Estado estado = new Estado();
+        estado.setEtapa(etapa);
+
+        return estado;
     }
 }

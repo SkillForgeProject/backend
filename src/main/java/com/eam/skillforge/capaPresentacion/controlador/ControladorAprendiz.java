@@ -3,7 +3,7 @@ package com.eam.skillforge.capaPresentacion.controlador;
 import com.eam.skillforge.capaNegocio.dto.CursoDto;
 import com.eam.skillforge.capaNegocio.dto.UsuarioDto;
 import com.eam.skillforge.capaNegocio.servicio.AprendizServicio;
-import com.eam.skillforge.capaPersistencia.entidad.Curso;
+import com.eam.skillforge.capaPersistencia.entidad.Estado;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -109,5 +109,19 @@ public class ControladorAprendiz {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body("Error al crear la solicitud: " + e.getMessage());
         }
+    }
+
+    @GetMapping("{cursoId}/estado/progresoCurso")
+    @Operation(summary = "Obtiene el estado del progreso de un curso")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Estado obtenido correctamente"),
+            @ApiResponse(responseCode = "500", description = "Error al obtener el estado del progreso del curso"),
+            @ApiResponse(responseCode = "404", description = "No se encontró el recurso")
+    })
+    public ResponseEntity<Estado> getEstadoProgresoPorIdCurso(@PathVariable Long cursoId) {
+        log.info("GET aprendiz/{}/estado/progresoCurso Obteniendo estado progreso", cursoId);
+        Estado estadoCurso = aprendizServicio.getEstadoProgresoPorIdCurso(cursoId);
+        log.info("Se encontro el estado {} del curso con id {}", estadoCurso, cursoId);
+        return ResponseEntity.ok(estadoCurso);
     }
 }

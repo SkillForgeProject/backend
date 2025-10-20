@@ -53,5 +53,7 @@ public class AprendizDAO {
         aprendizRepositorio.postSolicitudInscripcionCurso(usuarioId, cursoId);
     }
 
-
+    public String getEstadoProgresoPorIdCurso(Long cursoId){
+        return aprendizRepositorio.getEstadoProgresoPorIdCurso(cursoId);
+    }
 }

@@ -59,6 +59,17 @@ public interface AprendizRepositorio extends JpaRepository<Usuario, Long> {
             """, nativeQuery = true)
     void postSolicitudInscripcionCurso(@Param("usuarioId") Long usuarioId, @Param("cursoId") Long cursoId);
 
-
-
+    @Query("""
+        SELECT CASE
+            WHEN COUNT(i) = 0 THEN 'NOINSCRITO'
+            WHEN SUM(i.progreso) = 0 THEN 'INSCRITO'
+            WHEN AVG(i.progreso) < 100 THEN 'ENPROGRESO'
+            ELSE 'COMPLETADO'
+        END
+        FROM Inscripcion i
+        WHERE i.curso.id = :cursoId
+    """)
+    String getEstadoProgresoPorIdCurso(@Param("cursoId") Long cursoId);
 }
+
+

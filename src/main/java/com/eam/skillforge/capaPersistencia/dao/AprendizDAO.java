@@ -56,4 +56,12 @@ public class AprendizDAO {
     public String getEstadoProgresoPorIdCurso(Long cursoId){
         return aprendizRepositorio.getEstadoProgresoPorIdCurso(cursoId);
     }
+
+    public Double getProgresoPorModulo(Long moduloId){
+        return aprendizRepositorio.getProgresoPorModulo(moduloId);
+    }
+
+    public void putEstadoProgresoPorIdModulo(Long moduloId, int nuevoEstado) {
+        aprendizRepositorio.putEstadoProgresoPorIdModulo(moduloId, nuevoEstado);
+    }
 }

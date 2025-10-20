@@ -124,4 +124,33 @@ public class ControladorAprendiz {
         log.info("Se encontro el estado {} del curso con id {}", estadoCurso, cursoId);
         return ResponseEntity.ok(estadoCurso);
     }
+
+    @PutMapping("/modulo/{moduloId}/estado")
+    @Operation(summary = "Actualiza el estado del progreso de un módulo según su avance")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Estado actualizado correctamente"),
+            @ApiResponse(responseCode = "500", description = "No se encontró la inscripción"),
+            @ApiResponse(responseCode = "404", description = "Error al actualizar el estado")
+    })
+    public ResponseEntity<Void> putEstadoProgresoPorIdModulo(@PathVariable Long moduloId) {
+        log.info("PUT aprendiz/modulo/{}/estado Actualizando estado progreso", moduloId);
+        aprendizServicio.putEstadoProgresoPorIdModulo(moduloId);
+        log.info("Se actualizo el estado del modulo con id {}", moduloId);
+        return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/progreso/{moduloId}")
+    @Operation(summary = "Obtiene el progreso de un modulo")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Progreso obtenido correctamente"),
+            @ApiResponse(responseCode = "500", description = "Error al obtener el progreso del modulo"),
+            @ApiResponse(responseCode = "404", description = "No se encontró el recurso")
+    })
+    public ResponseEntity<Double> getProgresoPorModulo(@PathVariable Long moduloId) {
+        log.info("GET aprendiz/progreso/{} Obteniendo progreso", moduloId);
+        Double progreso = aprendizServicio.getProgresoPorModulo(moduloId);
+        log.info("Se encontro el progreso {} del modulo con id {}", progreso, moduloId);
+        return ResponseEntity.ok(progreso);
+    }
+
 }

@@ -26,4 +26,8 @@ public interface AprendizServicio {
 
     Estado getEstadoProgresoPorIdCurso(Long cursoId);
 
+    void putEstadoProgresoPorIdModulo(Long moduloId);
+
+    Double getProgresoPorModulo(Long moduloId);
+
 }

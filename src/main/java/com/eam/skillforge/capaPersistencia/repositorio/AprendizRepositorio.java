@@ -5,6 +5,7 @@ import com.eam.skillforge.capaPersistencia.entidad.Curso;
 import com.eam.skillforge.capaPersistencia.entidad.EstadoSolicitud;
 import com.eam.skillforge.capaPersistencia.entidad.Usuario;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.NativeQuery;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -70,6 +71,23 @@ public interface AprendizRepositorio extends JpaRepository<Usuario, Long> {
         WHERE i.curso.id = :cursoId
     """)
     String getEstadoProgresoPorIdCurso(@Param("cursoId") Long cursoId);
+
+    @Query(value = """
+    SELECT progreso
+    FROM inscripcion
+    WHERE moduloId = :moduloId
+    LIMIT 1
+    """, nativeQuery = true)
+    Double getProgresoPorModulo(@Param("moduloId") Long moduloId);
+
+    @Modifying
+    @Query(value = """
+    UPDATE inscripcion
+    SET estado = :nuevoEstado, fechaUltimoEstado = CURRENT_TIMESTAMP
+    WHERE moduloId = :moduloId
+    """, nativeQuery = true)
+    int putEstadoProgresoPorIdModulo(@Param("moduloId") Long moduloId,
+                                     @Param("nuevoEstado") int nuevoEstado);
 }
 
 

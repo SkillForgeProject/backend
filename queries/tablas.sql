@@ -1,4 +1,4 @@
-CREATE DATABASE skillforge;
+solicitudCREATE DATABASE skillforge;
 USE skillforge;
 
 CREATE TABLE departamento (

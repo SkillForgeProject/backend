@@ -165,3 +165,13 @@ INSERT INTO Opcion_Pregunta (id_pregunta, opcion, esCorrecto) VALUES
 (7, 'for (i=0; i<10; i++) { ... }', FALSE),
 (7, 'int x;', FALSE),
 (7, 'return;', FALSE);
+
+-- Solicitudes de inscripcion a un curso
+INSERT INTO Solicitud (usuarioId, cursoId, estadosolicitud) VALUES
+(1, 3, (SELECT id FROM EstadoSolicitud WHERE estado = 'ENESPERA'));
+
+INSERT INTO Solicitud (usuarioId, cursoId, estadoSolicitud) VALUES
+(2, 3, (SELECT id FROM EstadoSolicitud WHERE estado = 'ENESPERA'));
+
+INSERT INTO Solicitud (usuarioId, cursoId, estadoSolicitud) VALUES
+(3, 1, (SELECT id FROM EstadoSolicitud WHERE estado = 'ENESPERA'));
